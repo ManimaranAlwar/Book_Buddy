@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>ASTRA MISSION CONTROL</title>
+    <link rel="stylesheet" href="/static/space_run/style.css">
+    <script src="/static/js/games-sdk.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body>
+    <a href="/"
+        class="fixed top-4 left-4 z-50 bg-blue-500/50 hover:bg-blue-500 px-4 py-2 rounded text-white font-bold">EXIT
+        MISSION</a>
+    <div id="starfield"></div>
+
+    <div class="hud">
+        <div class="hud-item flex flex-col items-center"><span class="text-xs">OXYGEN</span>
+            <div class="bar-bg">
+                <div id="oxy-bar" class="bar"></div>
+            </div>
+        </div>
+        <div class="hud-item flex flex-col items-center"><span class="text-xs">FUEL</span>
+            <div class="bar-bg">
+                <div id="fuel-bar" class="bar fuel"></div>
+            </div>
+        </div>
+        <div class="hud-item"><button id="hint-btn" class="game-btn">REQUEST HINT</button></div>
+        <div class="hud-item font-bold text-xl">SCORE: <span id="score-val">0</span></div>
+    </div>
+
+    <div class="terminal">
+        <h2 id="question-text" class="text-white">INITIALIZING...</h2>
+    </div>
+
+    <div id="hint-ship" class="hint-ship">
+        <div class="hint-bubble" id="hint-bubble"></div>
+        <img src="/static/space_run/images/rocket.png" alt="Support Ship">
+    </div>
+
+    <div id="astronaut" class="astronaut">
+        <div class="fire-tail"></div>
+    </div>
+
+    <div id="end-screen" class="overlay text-center">
+        <h1 id="status" class="text-4xl mb-4 text-red-500 font-black">MISSION OVER</h1>
+        <h2 class="text-2xl mb-8">SCORE: <span id="final-score">0</span></h2>
+        <div class="flex gap-4">
+            <button class="game-btn px-8" onclick="location.reload()">RE-INITIALIZE</button>
+            <a href="/" class="game-btn px-8 bg-slate-600">ABORT TO BASE</a>
+        </div>
+    </div>
+
+    <script src="/static/space_run/script.js"></script>
+</body>
+
+</html>

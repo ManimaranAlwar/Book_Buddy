@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Match Fun!</title>
+    <link rel="stylesheet" href="/static/matchup/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/static/js/games-sdk.js"></script>
+</head>
+
+<body class="flex justify-center items-center h-screen overflow-hidden">
+    <div class="background-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <div class="game-container">
+        <header>
+            <h1>🎈 Word Match!</h1>
+            <div id="level-title">Loading...</div>
+            <div class="stats">
+                <div class="stat-item">
+                    <span class="label">Pairs</span>
+                    <span class="value" id="score">0/0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="label">Time</span>
+                    <span class="value" id="timer">00:00</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="game-board">
+            <div class="column" id="col-left"></div>
+            <div class="column" id="col-right"></div>
+        </div>
+
+        <div id="win-overlay" class="hidden">
+            <div class="win-card">
+                <h2>🎉 Amazing!</h2>
+                <p>You matched all pairs!</p>
+                <button onclick="location.reload()">Next Level</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/matchup/game.js"></script>
+</body>
+
+</html>

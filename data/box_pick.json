@@ -1,0 +1,177 @@
+[
+    {
+        "id": 1,
+        "riddle": "I'm a yummy summer treat, cool and sweet to eat! 🍨",
+        "emoji": "🌞",
+        "correctWords": [
+            "mango",
+            "ice cream",
+            "kulfi",
+            "lassi",
+            "sundae",
+            "popsicle",
+            "sherbet",
+            "frozen yogurt"
+        ],
+        "wrongWords": [
+            "pizza",
+            "burger",
+            "french fries",
+            "hot dog",
+            "pasta",
+            "sandwich",
+            "chicken wings",
+            "tacos"
+        ]
+    },
+    {
+        "id": 2,
+        "riddle": "I live in the ocean and swim all day! 🐟",
+        "emoji": "🌊",
+        "correctWords": [
+            "fish",
+            "whale",
+            "dolphin",
+            "shark",
+            "octopus",
+            "jellyfish",
+            "seahorse",
+            "crab"
+        ],
+        "wrongWords": [
+            "elephant",
+            "lion",
+            "tiger",
+            "monkey",
+            "giraffe",
+            "zebra",
+            "kangaroo",
+            "penguin"
+        ]
+    },
+    {
+        "id": 3,
+        "riddle": "I'm something you wear when it's very cold! 🥶",
+        "emoji": "❄️",
+        "correctWords": [
+            "jacket",
+            "sweater",
+            "scarf",
+            "gloves",
+            "boots",
+            "beanie",
+            "coat",
+            "mittens"
+        ],
+        "wrongWords": [
+            "shorts",
+            "flip flops",
+            "sunglasses",
+            "swimsuit",
+            "tank top",
+            "sandals",
+            "sunhat",
+            "umbrella"
+        ]
+    },
+    {
+        "id": 4,
+        "riddle": "I'm a fruit that grows on trees! 🌳",
+        "emoji": "🍎",
+        "correctWords": [
+            "apple",
+            "orange",
+            "mango",
+            "banana",
+            "cherry",
+            "peach",
+            "pear",
+            "plum"
+        ],
+        "wrongWords": [
+            "carrot",
+            "potato",
+            "onion",
+            "broccoli",
+            "spinach",
+            "cucumber",
+            "tomato",
+            "lettuce"
+        ]
+    },
+    {
+        "id": 5,
+        "riddle": "I'm something you find in a classroom! 📚",
+        "emoji": "🏫",
+        "correctWords": [
+            "desk",
+            "chair",
+            "blackboard",
+            "chalk",
+            "book",
+            "pencil",
+            "eraser",
+            "ruler"
+        ],
+        "wrongWords": [
+            "bed",
+            "sofa",
+            "refrigerator",
+            "television",
+            "bathtub",
+            "oven",
+            "washing machine",
+            "garden"
+        ]
+    },
+    {
+        "id": 6,
+        "riddle": "I can fly high in the sky! ✈️",
+        "emoji": "☁️",
+        "correctWords": [
+            "bird",
+            "airplane",
+            "butterfly",
+            "kite",
+            "helicopter",
+            "balloon",
+            "bee",
+            "eagle"
+        ],
+        "wrongWords": [
+            "car",
+            "bus",
+            "train",
+            "boat",
+            "bicycle",
+            "scooter",
+            "truck",
+            "submarine"
+        ]
+    },
+    {
+        "id": 7,
+        "riddle": "I'm a color you can see in a rainbow! 🌈",
+        "emoji": "🎨",
+        "correctWords": [
+            "red",
+            "orange",
+            "yellow",
+            "green",
+            "blue",
+            "purple",
+            "pink",
+            "violet"
+        ],
+        "wrongWords": [
+            "black",
+            "white",
+            "gray",
+            "brown",
+            "silver",
+            "gold",
+            "beige",
+            "cream"
+        ]
+    }
+]

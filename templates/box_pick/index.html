@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Daily Box Pick</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/static/js/games-sdk.js"></script>
+    <link rel="stylesheet" href="/static/box_pick/style.css">
+</head>
+
+<body class="p-6">
+    <a href="/"
+        class="fixed top-4 left-4 bg-white/20 hover:bg-white/40 text-white px-4 py-2 rounded-full font-bold backdrop-blur">←
+        Hub</a>
+
+    <div class="max-w-4xl mx-auto text-center mt-12">
+        <h1 class="text-5xl font-black text-white drop-shadow-lg mb-4">📦 Box Pick Challenge</h1>
+
+        <div class="bg-white/10 backdrop-blur-md rounded-3xl p-8 shadow-2xl border border-white/20">
+            <!-- Streak Header -->
+            <div class="flex justify-between items-center mb-8 bg-black/20 p-4 rounded-xl">
+                <div class="text-white">
+                    <span class="text-sm opacity-70">CURRENT STREAK</span>
+                    <div class="text-3xl font-bold">🔥 <span id="current-streak">0</span></div>
+                </div>
+                <div class="text-white text-right">
+                    <span class="text-sm opacity-70">DAILY PUZZLE</span>
+                    <div class="text-2xl font-bold text-yellow-300">Active</div>
+                </div>
+            </div>
+
+            <!-- Riddle -->
+            <div class="bg-white rounded-2xl p-6 mb-8 shadow-lg transform -rotate-1">
+                <div class="text-6xl mb-2" id="riddle-emoji">❓</div>
+                <h2 class="text-gray-500 uppercase font-bold text-sm tracking-widest">Today's Riddle</h2>
+                <p id="riddle-text" class="text-2xl font-bold text-indigo-900 mt-2">Loading Puzzle...</p>
+            </div>
+
+            <!-- Game Area -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Word Box -->
+                <div class="bg-blue-50/90 rounded-2xl p-6 min-h-[300px] border-4 border-dashed border-blue-200">
+                    <h3 class="text-blue-400 font-bold mb-4 uppercase text-xs">Keep the Correct Words</h3>
+                    <div id="words-container" class="flex flex-wrap gap-3 justify-center">
+                        <!-- Words injected here -->
+                    </div>
+                </div>
+
+                <!-- Trash Bin -->
+                <div class="flex flex-col items-center justify-center">
+                    <div id="trash-zone"
+                        class="trash-can cursor-pointer p-8 rounded-full bg-red-100 hover:bg-red-200 border-4 border-red-300 w-48 h-48 flex flex-col items-center justify-center shadow-inner">
+                        <span class="text-6xl">🗑️</span>
+                        <span class="font-bold text-red-500 mt-2">DROP WRONG WORDS HERE</span>
+                    </div>
+
+                    <div id="removed-section" class="mt-4 hidden w-full">
+                        <h4 class="text-white font-bold mb-2 text-sm">Trashed Items:</h4>
+                        <div id="removed-words" class="flex flex-wrap gap-2 justify-center"></div>
+                    </div>
+                </div>
+            </div>
+
+            <button id="submit-btn"
+                class="mt-12 bg-green-500 hover:bg-green-600 text-white text-2xl font-black py-4 px-12 rounded-full shadow-xl transform hover:scale-105 transition">✨
+                CHECK BOX ✨</button>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="success-modal" class="fixed inset-0 bg-black/80 flex items-center justify-center hidden z-50">
+        <div class="bg-white rounded-3xl p-12 text-center max-w-md mx-4 animate-bounce-in">
+            <div class="text-8xl mb-4">🎉</div>
+            <h2 class="text-4xl font-black text-indigo-900 mb-2">PERFECT!</h2>
+            <p class="text-gray-600 mb-8">You solved the daily puzzle.</p>
+            <a href="/" class="bg-indigo-600 text-white px-8 py-3 rounded-full font-bold hover:bg-indigo-700">Back to
+                Hub</a>
+        </div>
+    </div>
+
+    <script src="/static/box_pick/script.js"></script>
+</body>
+
+</html>

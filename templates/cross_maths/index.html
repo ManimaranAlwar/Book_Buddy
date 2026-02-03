@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Space Math Terminal | Sector {{ level_id }}</title>
+    <link rel="stylesheet" href="/static/cross_maths/style.css">
+</head>
+
+<body>
+    <div class="stars-overlay"></div>
+    <div style="position:fixed; top:10px; left:10px; z-index:100;">
+        <a href="/" class="nav-link" style="font-size: 1.2rem;">⚡ RETURN TO HUB</a>
+    </div>
+
+    <div class="main-wrapper">
+        <div class="terminal-container">
+            <div class="nav-header" style="display:flex; justify-content:space-between; margin-bottom:20px;">
+                <span class="sector-id">SYSTEM_STATUS: ACTIVE</span>
+            </div>
+
+            <div class="terminal-header" style="text-align:center; margin-bottom:20px;">
+                <div class="glitch-wrapper">PILOT: <span id="display-name" class="neon-text">---</span></div>
+                <div id="timer" class="timer-display">T-MINUS: 00:00</div>
+            </div>
+
+            <h2 class="sector-title" style="text-align:center;">SECTOR_{{ level_id }}</h2>
+
+            <div class="grid-layer" id="math-grid">
+                {% for r in range(matrix|length) %}
+                <div class="grid-row">
+                    {% for c in range(matrix[r]|length) %}
+                    {% set cell = matrix[r][c] %}
+                    {% if cell == "." %}
+                    <div class="cell blocked"></div>
+                    {% elif cell == "_" %}
+                    <input type="text" class="cell input-cell" data-ans="{{ answers[r ~ '-' ~ c] }}" maxlength="3"
+                        autocomplete="off">
+                    {% else %}
+                    <div class="cell static-cell">{{ cell }}</div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+                {% endfor %}
+            </div>
+
+            <div id="status-msg" class="status-msg">WAITING FOR INPUT...</div>
+            <button class="action-btn" id="warp-btn" onclick="validateTerminal()">INITIATE WARP</button>
+        </div>
+    </div>
+    <script>
+        window.currentLevel = "{{ level_id }}";
+    </script>
+    <script src="/static/js/games-sdk.js"></script>
+    <script src="/static/cross_maths/script.js"></script>
+</body>
+
+</html>

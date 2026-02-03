@@ -1,0 +1,22 @@
+[
+    {"word": "ATOM", "hint": "Tiny particle that makes up all matter"},
+    {"word": "CELL", "hint": "The basic unit of all living organisms"},
+    {"word": "LEAF", "hint": "Part of the plant where photosynthesis happens"},
+    {"word": "GRAVITY", "hint": "The force that pulls objects toward Earth"},
+    {"word": "NEUTRON", "hint": "Subatomic particle with no electric charge"},
+    {"word": "CIRCUIT", "hint": "A closed path for electricity"},
+    {"word": "PHOTOSYNTHESIS", "hint": "Process plants use to make food from light"},
+    {"word": "MITOCHONDRIA", "hint": "The powerhouse of the cell (plural)"},
+    {"word": "CHROMOSOME", "hint": "DNA structure carrying genetic information"},
+    {"word": "VELOCITY", "hint": "Speed in a given direction"},
+    {"word": "GALAXY", "hint": "A system of millions or billions of stars"},
+    {"word": "FOSSIL", "hint": "Preserved remains of ancient organisms"},
+    {"word": "ECOSYSTEM", "hint": "Community of interacting organisms and their environment"},
+    {"word": "PRISM", "hint": "Glass object that separates light into colors"},
+    {"word": "MAGNET", "hint": "Object that attracts iron or steel"},
+    {"word": "TELESCOPE", "hint": "Instrument used to see distant stars"},
+    {"word": "MICROSCOPE", "hint": "Instrument used to see tiny objects"},
+    {"word": "VOLCANO", "hint": "Mountain that erupts with lava"},
+    {"word": "ECLIPSE", "hint": "Obscuring of the light from one celestial body by another"},
+    {"word": "ATMOSPHERE", "hint": "Layer of gases surrounding a planet"}
+]

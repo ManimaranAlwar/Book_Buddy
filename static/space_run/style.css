@@ -1,0 +1,217 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&display=swap');
+
+body,
+html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+    background: url('/static/space_run/images/bg.png') no-repeat center center fixed;
+    background-size: cover;
+    font-family: 'Orbitron', sans-serif;
+    color: white;
+}
+
+#starfield {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.star {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    opacity: 0.6;
+}
+
+@keyframes float {
+    0% {
+        transform: translateX(-50%) translateY(0px);
+    }
+
+    50% {
+        transform: translateX(-50%) translateY(-15px);
+    }
+
+    100% {
+        transform: translateX(-50%) translateY(0px);
+    }
+}
+
+.hud {
+    position: fixed;
+    top: 15px;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    z-index: 1000;
+}
+
+.bar-bg {
+    width: 100px;
+    height: 10px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+}
+
+.bar {
+    height: 100%;
+    width: 100%;
+    background: #22d3ee;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.fuel {
+    background: #fbbf24;
+}
+
+.game-btn {
+    background: #fbbf24;
+    border: none;
+    color: #020617;
+    padding: 8px 15px;
+    font-family: 'Orbitron';
+    font-weight: 900;
+    cursor: pointer;
+    border-radius: 5px;
+    box-shadow: 0 0 10px #fbbf24;
+}
+
+.terminal {
+    position: fixed;
+    top: 75px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(15, 23, 42, 0.9);
+    border: 2px solid #22d3ee;
+    padding: 15px 30px;
+    border-radius: 12px;
+    text-align: center;
+    z-index: 100;
+    width: 70%;
+    max-width: 600px;
+}
+
+.astronaut {
+    position: absolute;
+    width: 65px;
+    height: 75px;
+    background: url('/static/space_run/images/astr.png') center/contain no-repeat;
+    z-index: 500;
+    transition: left 0.7s, top 0.7s, transform 0.1s;
+    pointer-events: none;
+}
+
+.fire-tail {
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 25px;
+    height: 0;
+    background: linear-gradient(to bottom, #ff4500, #ffae00, transparent);
+    filter: blur(3px);
+    border-radius: 50%;
+    transition: 0.3s;
+}
+
+.flying .fire-tail {
+    height: 50px;
+    animation: flicker 0.1s infinite;
+}
+
+@keyframes flicker {
+    0% {
+        opacity: 0.7;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.planet {
+    position: absolute;
+    transform: translateX(-50%);
+    border-radius: 50%;
+    background-size: cover;
+    background-position: center;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    animation: float 4s ease-in-out infinite;
+}
+
+.planet:nth-child(odd) {
+    animation-duration: 3.5s;
+    animation-delay: 0.2s;
+}
+
+.planet:nth-child(even) {
+    animation-duration: 4.5s;
+    animation-delay: 0.5s;
+}
+
+.planet span {
+    font-weight: 900;
+    font-size: 1.5rem;
+    text-shadow: 2px 2px 4px #000;
+    pointer-events: none;
+}
+
+.planet-fall {
+    animation: fall 1.2s forwards !important;
+    pointer-events: none;
+}
+
+@keyframes fall {
+    100% {
+        transform: translateX(-50%) translateY(1000px) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+.hint-ship {
+    position: fixed;
+    bottom: -200px;
+    right: 50px;
+    transition: 0.8s;
+    z-index: 1001;
+}
+
+.hint-ship.active {
+    bottom: 30px;
+}
+
+.hint-bubble {
+    background: white;
+    color: black;
+    padding: 12px;
+    border-radius: 15px;
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    border: 3px solid #22d3ee;
+    max-width: 200px;
+}
+
+.hint-ship img {
+    width: 90px;
+}
+
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.9);
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+}

@@ -1,0 +1,262 @@
+[
+    {
+        "id": 1,
+        "title": "Level 1: Opposites Fun! ↔️",
+        "pairs": [
+            {
+                "word": "Hot 🔥",
+                "match": "Cold ❄️"
+            },
+            {
+                "word": "Day ☀️",
+                "match": "Night 🌙"
+            },
+            {
+                "word": "Happy 😊",
+                "match": "Sad 😢"
+            },
+            {
+                "word": "Big 🐘",
+                "match": "Small 🐜"
+            },
+            {
+                "word": "Up ⬆️",
+                "match": "Down ⬇️"
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "title": "Level 2: Animal Sounds 🐮",
+        "pairs": [
+            {
+                "word": "Cow 🐄",
+                "match": "Moo 📢📢"
+            },
+            {
+                "word": "Cat 🐱",
+                "match": "Meow 🐾"
+            },
+            {
+                "word": "Dog 🐶",
+                "match": "Woof 🐾"
+            },
+            {
+                "word": "Duck 🦆",
+                "match": "Quack 🦆"
+            },
+            {
+                "word": "Lion 🦁",
+                "match": "Roar 🦁"
+            }
+        ]
+    },
+    {
+        "id": 3,
+        "title": "Level 3: Color Match 🎨",
+        "pairs": [
+            {
+                "word": "Red 🔴",
+                "match": "Apple 🍎"
+            },
+            {
+                "word": "Yellow 🟡",
+                "match": "Banana 🍌"
+            },
+            {
+                "word": "Green 🟢",
+                "match": "Leaf 🍃"
+            },
+            {
+                "word": "Blue 🔵",
+                "match": "Sky ☁️"
+            },
+            {
+                "word": "Orange 🟠",
+                "match": "Carrot 🥕"
+            }
+        ]
+    },
+    {
+        "id": 4,
+        "title": "Level 4: Baby Animals 👶",
+        "pairs": [
+            {
+                "word": "Cat 🐱",
+                "match": "Kitten 🐾"
+            },
+            {
+                "word": "Dog 🐶",
+                "match": "Puppy 🐾"
+            },
+            {
+                "word": "Cow 🐄",
+                "match": "Calf 🐮"
+            },
+            {
+                "word": "Chicken 🐔",
+                "match": "Chick 🐣"
+            },
+            {
+                "word": "Sheep 🐑",
+                "match": "Lamb 🐏"
+            }
+        ]
+    },
+    {
+        "id": 5,
+        "title": "Level 5: Number Words 🔢",
+        "pairs": [
+            {
+                "word": "1️⃣",
+                "match": "One 🥇"
+            },
+            {
+                "word": "2️⃣",
+                "match": "Two 🥈"
+            },
+            {
+                "word": "3️⃣",
+                "match": "Three 🥉"
+            },
+            {
+                "word": "4️⃣",
+                "match": "Four 🍀"
+            },
+            {
+                "word": "5️⃣",
+                "match": "Five ✋"
+            }
+        ]
+    },
+    {
+        "id": 6,
+        "title": "Level 6: Fruit & Veggies 🍇",
+        "pairs": [
+            {
+                "word": "Red 🔴",
+                "match": "Strawberry 🍓"
+            },
+            {
+                "word": "Yellow 🟡",
+                "match": "Lemon 🍋"
+            },
+            {
+                "word": "Green 🟢",
+                "match": "Broccoli 🥦"
+            },
+            {
+                "word": "Purple 🟣",
+                "match": "Grapes 🍇"
+            },
+            {
+                "word": "Orange 🟠",
+                "match": "Pumpkin 🎃"
+            }
+        ]
+    },
+    {
+        "id": 7,
+        "title": "Level 7: Things That Go 🚗",
+        "pairs": [
+            {
+                "word": "Car 🚗",
+                "match": "Road 🛣️"
+            },
+            {
+                "word": "Boat 🚤",
+                "match": "Water 🌊"
+            },
+            {
+                "word": "Plane ✈️",
+                "match": "Sky ☁️"
+            },
+            {
+                "word": "Train 🚆",
+                "match": "Track 🛤️"
+            },
+            {
+                "word": "Rocket 🚀",
+                "match": "Space 🌌"
+            }
+        ]
+    },
+    {
+        "id": 8,
+        "title": "Level 8: Shapes 🔺",
+        "pairs": [
+            {
+                "word": "Circle ⚪",
+                "match": "Ball 🏀"
+            },
+            {
+                "word": "Square 🟦",
+                "match": "Box 📦"
+            },
+            {
+                "word": "Triangle 🔺",
+                "match": "Pizza Slice 🍕"
+            },
+            {
+                "word": "Star ⭐",
+                "match": "Starfish 🐟"
+            },
+            {
+                "word": "Heart ❤️",
+                "match": "Love 💖"
+            }
+        ]
+    },
+    {
+        "id": 9,
+        "title": "Level 9: Sports ⚽",
+        "pairs": [
+            {
+                "word": "Soccer ⚽",
+                "match": "Ball 🏐"
+            },
+            {
+                "word": "Basketball 🏀",
+                "match": "Hoop 🏆"
+            },
+            {
+                "word": "Baseball ⚾",
+                "match": "Bat 🏏"
+            },
+            {
+                "word": "Tennis 🎾",
+                "match": "Racket 🏸"
+            },
+            {
+                "word": "Hockey 🏒",
+                "match": "Puck 🥅"
+            }
+        ]
+    },
+    {
+        "id": 10,
+        "title": "Level 10: Emoji Math ➕",
+        "pairs": [
+            {
+                "word": "1️⃣ + 1️⃣",
+                "match": "2️⃣"
+            },
+            {
+                "word": "2️⃣ + 2️⃣",
+                "match": "4️⃣"
+            },
+            {
+                "word": "5️⃣ + 5️⃣",
+                "match": "🔟"
+            },
+            {
+                "word": "3️⃣ - 1️⃣",
+                "match": "2️⃣"
+            },
+            {
+                "word": "🔟 - 5️⃣",
+                "match": "5️⃣"
+            }
+        ]
+    }
+]

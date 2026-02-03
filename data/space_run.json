@@ -1,0 +1,102 @@
+[
+    {
+        "q": "What is 5 + 5?",
+        "options": [
+            "10",
+            "15",
+            "20"
+        ],
+        "correct": 0,
+        "hint": "Count all your fingers!"
+    },
+    {
+        "q": "Which shape has 3 sides?",
+        "options": [
+            "Square",
+            "Triangle",
+            "Circle"
+        ],
+        "correct": 1,
+        "hint": "Think of a slice of pizza."
+    },
+    {
+        "q": "What color is a banana?",
+        "options": [
+            "Red",
+            "Yellow",
+            "Blue"
+        ],
+        "correct": 1,
+        "hint": "It is the same color as the sun."
+    },
+    {
+        "q": "Which animal says 'Moo'?",
+        "options": [
+            "Dog",
+            "Sheep",
+            "Cow"
+        ],
+        "correct": 2,
+        "hint": "This animal gives us milk."
+    },
+    {
+        "q": "How many legs does a spider have?",
+        "options": [
+            "4",
+            "6",
+            "8"
+        ],
+        "correct": 2,
+        "hint": "It is more than a dog has."
+    },
+    {
+        "q": "What is 10 minus 2?",
+        "options": [
+            "7",
+            "8",
+            "9"
+        ],
+        "correct": 1,
+        "hint": "Count backwards twice from ten."
+    },
+    {
+        "q": "What comes after the number 9?",
+        "options": [
+            "8",
+            "10",
+            "11"
+        ],
+        "correct": 1,
+        "hint": "It is the first two-digit number."
+    },
+    {
+        "q": "Which planet do we live on?",
+        "options": [
+            "Mars",
+            "Earth",
+            "Venus"
+        ],
+        "correct": 1,
+        "hint": "It is also called the Blue Planet."
+    },
+    {
+        "q": "What is H2O?",
+        "options": [
+            "Water",
+            "Air",
+            "Fire"
+        ],
+        "correct": 0,
+        "hint": "You drink it when you are thirsty."
+    },
+    {
+        "q": "How many states of matter are there?",
+        "options": [
+            "2",
+            "3",
+            "4"
+        ],
+        "correct": 1,
+        "hint": "Solid, Liquid, and..."
+    }
+]
