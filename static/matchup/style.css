@@ -1,19 +1,26 @@
 :root {
-    --primary: #eaf6ff;
-    --text: #1a355c;
-    --glass: rgba(234, 246, 255, 0.85);
-    --glass-border: rgba(234, 246, 255, 0.8);
-    --accent: #3498db;
-    --accent-glow: rgba(52, 152, 219, 0.5);
-    --success: #5dade2;
-    --error: #2980b9;
+    --primary: var(--theme-blue);
+    /* Swapped */
+    --text: var(--theme-blue);
+    /* Keep text blue for light mode */
+    --glass: rgba(15, 44, 103, 0.05);
+    /* Blue opacity for light mode */
+    --glass-border: rgba(15, 44, 103, 0.1);
+    --accent: var(--theme-red);
+    --accent-glow: rgba(125, 20, 36, 0.2);
+    --success: var(--theme-blue);
+    --error: var(--theme-red);
+    --theme-red: #7D1424;
+    --theme-blue: #0F2C67;
+    --theme-white: #F7F7FD;
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap');
 
 body {
     font-family: 'Fredoka', cursive;
-    background: #eaf6ff;
+    background: var(--theme-white);
+    /* White Background */
     color: var(--text);
 }
 
@@ -25,21 +32,21 @@ body {
     height: 100%;
     z-index: -1;
     overflow: hidden;
-    background: linear-gradient(120deg, #eaf6ff 0%, #b3cde7 100%);
+    background: linear-gradient(120deg, var(--theme-white) 0%, #eef2ff 100%);
 }
 
 .blob {
     position: absolute;
     border-radius: 50%;
     filter: blur(60px);
-    opacity: 0.8;
+    opacity: 0.4;
     animation: move 10s infinite alternate;
 }
 
 .blob-1 {
     width: 400px;
     height: 400px;
-    background: #85c1e9;
+    background: var(--theme-red);
     top: -50px;
     left: -50px;
 }
@@ -47,7 +54,7 @@ body {
 .blob-2 {
     width: 350px;
     height: 350px;
-    background: #2980b9;
+    background: #0a1f4d;
     bottom: -50px;
     right: -50px;
     animation-delay: -2s;
@@ -56,7 +63,7 @@ body {
 .blob-3 {
     width: 300px;
     height: 300px;
-    background: #5dade2;
+    background: var(--theme-red);
     top: 30%;
     left: 30%;
     animation-delay: -5s;
@@ -75,12 +82,12 @@ body {
 .game-container {
     background: var(--glass);
     backdrop-filter: blur(25px);
-    border: 3px solid #eaf6ff;
+    border: 3px solid var(--theme-white);
     border-radius: 30px;
     padding: 2rem;
     width: 95%;
     max-width: 850px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
     position: relative;
     max-height: 95vh;
     display: flex;
@@ -98,23 +105,23 @@ header {
 h1 {
     font-weight: 700;
     font-size: 2.5rem;
-    color: #1a355c;
+    color: var(--theme-blue);
     margin-bottom: 0.5rem;
 }
 
 #level-title {
     font-size: 1.2rem;
-    color: #5dade2;
+    color: var(--theme-red);
     margin-bottom: 1rem;
 }
 
 .stats {
     display: flex;
     gap: 2rem;
-    background: rgba(234, 246, 255, 0.5);
+    background: rgba(15, 44, 103, 0.1);
     padding: 0.5rem 1.5rem;
     border-radius: 50px;
-    border: 2px solid #eaf6ff;
+    border: 2px solid var(--theme-blue);
 }
 
 .stat-item {
@@ -125,14 +132,14 @@ h1 {
 
 .stat-item .label {
     font-size: 0.8rem;
-    color: #5499c7;
+    color: var(--theme-blue);
     font-weight: 600;
 }
 
 .stat-item .value {
     font-size: 1.5rem;
     font-weight: 700;
-    color: #3498db;
+    color: var(--theme-red);
 }
 
 .game-board {
@@ -151,33 +158,34 @@ h1 {
 }
 
 .word-card {
-    background: #eaf6ff;
+    background: var(--theme-white);
     padding: 1.2rem 1rem;
     border-radius: 20px;
-    border-bottom: 5px solid #b3cde7;
+    border-bottom: 5px solid #d1d1e0;
     cursor: pointer;
     transition: all 0.1s;
     font-weight: 700;
     font-size: 1.2rem;
     text-align: center;
-    color: #1a355c;
+    color: var(--theme-blue);
     user-select: none;
+    border: 1px solid var(--theme-blue);
 }
 
 .word-card:active {
     transform: translateY(3px);
-    border-bottom: 2px solid #b3cde7;
+    border-bottom: 2px solid var(--theme-blue);
 }
 
 .word-card:hover {
     transform: translateY(-2px);
-    background: #d6eaf8;
+    background: #e6e6f2;
 }
 
 .word-card.selected {
-    background: #3498db;
-    color: #eaf6ff;
-    border-bottom: 5px solid #2980b9;
+    background: var(--theme-blue);
+    color: var(--theme-white);
+    border-bottom: 5px solid #0a1f4d;
     transform: scale(1.02);
 }
 
@@ -188,9 +196,10 @@ h1 {
 }
 
 .word-card.error {
-    background: #d6eaf8;
-    color: #2980b9;
+    background: #ffe6e6;
+    color: var(--theme-red);
     animation: shake 0.5s;
+    border-color: var(--theme-red);
 }
 
 @keyframes shake {
@@ -217,7 +226,7 @@ h1 {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(234, 246, 255, 0.9);
+    background: rgba(247, 247, 253, 0.9);
     border-radius: 30px;
     display: flex;
     justify-content: center;
@@ -232,31 +241,31 @@ h1 {
 
 .win-card {
     text-align: center;
-    background: #eaf6ff;
+    background: var(--theme-white);
     padding: 3rem;
     border-radius: 40px;
-    border: 5px solid #3498db;
+    border: 5px solid var(--theme-blue);
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
     animation: popIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
 .win-card h2 {
     font-size: 3rem;
-    color: #3498db;
+    color: var(--theme-blue);
     margin-bottom: 1rem;
 }
 
 .win-card p {
     font-size: 1.5rem;
-    color: #1a355c;
+    color: var(--theme-red);
 }
 
 .win-card button {
     margin-top: 2rem;
-    background: #5dade2;
-    color: #eaf6ff;
+    background: var(--theme-red);
+    color: var(--theme-white);
     border: none;
-    border-bottom: 5px solid #2980b9;
+    border-bottom: 5px solid #5a0e1a;
     padding: 1rem 3rem;
     border-radius: 50px;
     font-size: 1.5rem;

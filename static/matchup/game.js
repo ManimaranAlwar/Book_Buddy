@@ -1,12 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     GamesSDK.init();
 
-    // Inject Hub Button
-    const btn = document.createElement('a');
-    btn.href = '/';
-    btn.className = 'fixed top-4 left-4 z-50 bg-white/50 hover:bg-white text-blue-900 font-bold py-2 px-4 rounded-full backdrop-blur-md shadow-lg transition';
-    btn.innerText = '🏠 Home';
-    document.body.appendChild(btn);
 
     let levels = [];
     let currentLevelIndex = 0;

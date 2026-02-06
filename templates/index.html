@@ -7,29 +7,52 @@
     <title>BOOK-BUDDY'S CHALLENGES</title>
     <link rel="icon" href="/static/images/logo.jpeg" type="image/jpeg">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        theme: {
+                            red: '#7D1424',
+                            blue: '#0F2C67',
+                            white: '#F7F7FD',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/global.css">
     <script src="/static/js/games-sdk.js"></script>
     <style>
         body {
             font-family: 'Outfit', sans-serif;
-            background: #0f172a;
-            color: white;
+            background: #F7F7FD;
+            /* theme-white */
+            color: #0F2C67;
+            /* theme-blue */
         }
 
         .glass {
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(15, 44, 103, 0.05);
+            /* theme-blue with opacity */
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(15, 44, 103, 0.1);
+            /* theme-blue with opacity */
         }
 
         .game-card {
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid transparent;
         }
 
         .game-card:hover {
             transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-            border-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 20px 40px rgba(15, 44, 103, 0.2);
+            /* softer shadow for light mode */
+            border-color: #7D1424;
+            /* theme-red */
         }
 
         .avatar {
@@ -46,8 +69,8 @@
     </style>
 </head>
 
-<body class="min-h-screen bg-[url('/static/images/hub-bg.jpg')] bg-cover bg-fixed">
-    <div class="fixed inset-0 bg-slate-900/90 backdrop-blur-sm z-0"></div>
+<body class="min-h-screen bg-theme-white text-theme-blue">
+    <div class="fixed inset-0 bg-theme-white/90 backdrop-blur-sm z-0"></div>
 
     <!-- MAIN DASHBOARD -->
     <div class="relative z-10 container mx-auto px-6 py-8">
@@ -56,15 +79,14 @@
         <nav class="flex justify-between items-center mb-12 glass p-4 rounded-2xl">
             <div class="flex items-center gap-4">
                 <img src="/static/images/logo.jpeg" alt="Book Buddy Logo"
-                    class="w-12 h-12 rounded-full border-2 border-white/20 shadow-lg">
-                <h1
-                    class="text-3xl font-black tracking-tighter bg-gradient-to-r from-blue-400 to-purple-500 text-transparent bg-clip-text">
+                    class="w-12 h-12 rounded-full border-2 border-theme-blue/20 shadow-lg">
+                <h1 class="text-3xl font-black tracking-tighter text-theme-blue">
                     BOOK-BUDDY'S GAMES
                 </h1>
             </div>
             <div id="user-profile-display">
                 <!-- Simple Greeting -->
-                <span class="font-bold text-white">Welcome, Student! 🎓</span>
+                <span class="font-bold text-theme-blue">Welcome, Student! 🎓</span>
             </div>
         </nav>
 
@@ -72,47 +94,50 @@
             <!-- Stats Row -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
                 <div class="glass p-6 rounded-2xl flex items-center gap-4">
-                    <div class="text-5xl">🔥</div>
+                    <div class="text-5xl text-theme-red">🔥</div>
                     <div>
-                        <div class="text-sm text-slate-400 uppercase font-bold">Total Streak</div>
-                        <div class="text-3xl font-black" id="dash-streak">0 Days</div>
+                        <div class="text-sm text-theme-blue/60 uppercase font-bold">Total Streak</div>
+                        <div class="text-3xl font-black text-theme-blue" id="dash-streak">0 Days</div>
                     </div>
                 </div>
                 <div class="glass p-6 rounded-2xl flex items-center gap-4">
-                    <div class="text-5xl">🏆</div>
+                    <div class="text-5xl text-theme-red">🏆</div>
                     <div>
-                        <div class="text-sm text-slate-400 uppercase font-bold">Badges Earned</div>
-                        <div class="text-3xl font-black" id="dash-badges">0</div>
+                        <div class="text-sm text-theme-blue/60 uppercase font-bold">Badges Earned</div>
+                        <div class="text-3xl font-black text-theme-blue" id="dash-badges">0</div>
                     </div>
                 </div>
                 <div class="glass p-6 rounded-2xl flex items-center gap-4">
-                    <div class="text-5xl">📅</div>
+                    <div class="text-5xl text-theme-red">📅</div>
                     <div>
-                        <div class="text-sm text-slate-400 uppercase font-bold">Daily Mission</div>
-                        <div class="text-3xl font-black text-green-400">Active</div>
+                        <div class="text-sm text-theme-blue/60 uppercase font-bold">Daily Mission</div>
+                        <div class="text-3xl font-black text-theme-blue">Active</div>
                     </div>
                 </div>
             </div>
 
             <!-- Games Grid -->
-            <h2 class="text-2xl font-bold mb-6 flex items-center gap-2"><span
-                    class="w-2 h-8 bg-blue-500 rounded-full inline-block"></span> AVAILABLE MISSIONS</h2>
+            <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
+                <span class="w-2 h-8 bg-theme-red rounded-full inline-block"></span>
+                AVAILABLE MISSIONS
+            </h2>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 
                 <!-- Game 1: Anagram -->
                 <a href="/anagram" class="game-card block glass rounded-3xl overflow-hidden relative group">
                     <div
-                        class="h-48 bg-gradient-to-br from-indigo-600 to-purple-700 flex items-center justify-center text-8xl group-hover:scale-110 transition duration-500">
+                        class="h-48 bg-theme-blue flex items-center justify-center text-8xl group-hover:bg-theme-red transition duration-500">
                         🧪
                     </div>
                     <div class="p-6">
-                        <h3 class="text-2xl font-bold mb-2">Anagram</h3>
-                        <p class="text-slate-400 mb-4">Unscramble scientific terms for the lab.</p>
+                        <h3 class="text-2xl font-bold mb-2 text-theme-blue">Anagram</h3>
+                        <p class="text-theme-blue/60 mb-4">Unscramble scientific terms for the lab.</p>
                         <div class="flex justify-between items-center">
-                            <span class="bg-indigo-500/20 text-indigo-300 px-3 py-1 rounded-full text-xs font-bold">WORD
+                            <span
+                                class="bg-theme-blue border border-theme-red text-theme-white px-3 py-1 rounded-full text-xs font-bold">WORD
                                 GAME</span>
-                            <span class="text-orange-400 font-bold text-sm">🔥 <span id="streak-anagram">0</span></span>
+                            <span class="text-theme-red font-bold text-sm">🔥 <span id="streak-anagram">0</span></span>
                         </div>
                     </div>
                 </a>
@@ -120,17 +145,16 @@
                 <!-- Game 2: Box Pick -->
                 <a href="/box-pick" class="game-card block glass rounded-3xl overflow-hidden relative group">
                     <div
-                        class="h-48 bg-gradient-to-br from-yellow-500 to-red-500 flex items-center justify-center text-8xl group-hover:scale-110 transition duration-500">
+                        class="h-48 bg-theme-blue flex items-center justify-center text-8xl group-hover:bg-theme-red transition duration-500">
                         🎁
                     </div>
                     <div class="p-6">
-                        <h3 class="text-2xl font-bold mb-2">Box Pick</h3>
-                        <p class="text-slate-400 mb-4">Daily word grouping challenge.</p>
+                        <h3 class="text-2xl font-bold mb-2 text-theme-blue">Box Pick</h3>
+                        <p class="text-theme-blue/60 mb-4">Daily word grouping challenge.</p>
                         <div class="flex justify-between items-center">
                             <span
-                                class="bg-orange-500/20 text-orange-300 px-3 py-1 rounded-full text-xs font-bold">PUZZLE</span>
-                            <span class="text-orange-400 font-bold text-sm">🔥 <span
-                                    id="streak-box_pick">0</span></span>
+                                class="bg-theme-blue border border-theme-red text-theme-white px-3 py-1 rounded-full text-xs font-bold">PUZZLE</span>
+                            <span class="text-theme-red font-bold text-sm">🔥 <span id="streak-box_pick">0</span></span>
                         </div>
                     </div>
                 </a>
@@ -138,16 +162,16 @@
                 <!-- Game 3: Cross Maths -->
                 <a href="/cross-maths" class="game-card block glass rounded-3xl overflow-hidden relative group">
                     <div
-                        class="h-48 bg-gradient-to-br from-cyan-600 to-blue-800 flex items-center justify-center text-8xl group-hover:scale-110 transition duration-500">
+                        class="h-48 bg-theme-blue flex items-center justify-center text-8xl group-hover:bg-theme-red transition duration-500">
                         🧮
                     </div>
                     <div class="p-6">
-                        <h3 class="text-2xl font-bold mb-2">Cross Maths</h3>
-                        <p class="text-slate-400 mb-4">Cyberpunk math grid puzzles.</p>
+                        <h3 class="text-2xl font-bold mb-2 text-theme-blue">Cross Maths</h3>
+                        <p class="text-theme-blue/60 mb-4">Cyberpunk math grid puzzles.</p>
                         <div class="flex justify-between items-center">
                             <span
-                                class="bg-cyan-500/20 text-cyan-300 px-3 py-1 rounded-full text-xs font-bold">MATH</span>
-                            <span class="text-orange-400 font-bold text-sm">🔥 <span
+                                class="bg-theme-blue border border-theme-red text-theme-white px-3 py-1 rounded-full text-xs font-bold">MATH</span>
+                            <span class="text-theme-red font-bold text-sm">🔥 <span
                                     id="streak-cross_maths">0</span></span>
                         </div>
                     </div>
@@ -156,16 +180,16 @@
                 <!-- Game 4: Matchup -->
                 <a href="/matchup" class="game-card block glass rounded-3xl overflow-hidden relative group">
                     <div
-                        class="h-48 bg-gradient-to-br from-green-500 to-emerald-700 flex items-center justify-center text-8xl group-hover:scale-110 transition duration-500">
+                        class="h-48 bg-theme-blue flex items-center justify-center text-8xl group-hover:bg-theme-red transition duration-500">
                         🧩
                     </div>
                     <div class="p-6">
-                        <h3 class="text-2xl font-bold mb-2">Matchup</h3>
-                        <p class="text-slate-400 mb-4">Connect the matching pairs.</p>
+                        <h3 class="text-2xl font-bold mb-2 text-theme-blue">Matchup</h3>
+                        <p class="text-theme-blue/60 mb-4">Connect the matching pairs.</p>
                         <div class="flex justify-between items-center">
                             <span
-                                class="bg-green-500/20 text-green-300 px-3 py-1 rounded-full text-xs font-bold">MEMORY</span>
-                            <span class="text-orange-400 font-bold text-sm">🔥 <span id="streak-matchup">0</span></span>
+                                class="bg-theme-blue border border-theme-red text-theme-white px-3 py-1 rounded-full text-xs font-bold">MEMORY</span>
+                            <span class="text-theme-red font-bold text-sm">🔥 <span id="streak-matchup">0</span></span>
                         </div>
                     </div>
                 </a>
@@ -173,16 +197,16 @@
                 <!-- Game 5: Space Run -->
                 <a href="/space-run" class="game-card block glass rounded-3xl overflow-hidden relative group">
                     <div
-                        class="h-48 bg-gradient-to-br from-slate-800 to-black flex items-center justify-center text-8xl group-hover:scale-110 transition duration-500">
+                        class="h-48 bg-theme-blue flex items-center justify-center text-8xl group-hover:bg-theme-red transition duration-500">
                         🚀
                     </div>
                     <div class="p-6">
-                        <h3 class="text-2xl font-bold mb-2">Space Run</h3>
-                        <p class="text-slate-400 mb-4">Jump planets with quiz power.</p>
+                        <h3 class="text-2xl font-bold mb-2 text-theme-blue">Space Run</h3>
+                        <p class="text-theme-blue/60 mb-4">Jump planets with quiz power.</p>
                         <div class="flex justify-between items-center">
                             <span
-                                class="bg-blue-500/20 text-blue-300 px-3 py-1 rounded-full text-xs font-bold">ACTION</span>
-                            <span class="text-orange-400 font-bold text-sm">🔥 <span
+                                class="bg-theme-blue border border-theme-red text-theme-white px-3 py-1 rounded-full text-xs font-bold">ACTION</span>
+                            <span class="text-theme-red font-bold text-sm">🔥 <span
                                     id="streak-space_run">0</span></span>
                         </div>
                     </div>

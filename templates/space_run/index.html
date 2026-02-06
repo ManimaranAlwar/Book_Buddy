@@ -4,34 +4,50 @@
 <head>
     <meta charset="UTF-8">
     <title>ASTRA MISSION CONTROL</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        theme: {
+                            red: '#7D1424',
+                            blue: '#0F2C67',
+                            white: '#F7F7FD',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="/static/css/global.css">
     <link rel="stylesheet" href="/static/space_run/style.css">
     <script src="/static/js/games-sdk.js"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body>
     <a href="/"
-        class="fixed top-4 left-4 z-50 bg-blue-500/50 hover:bg-blue-500 px-4 py-2 rounded text-white font-bold">EXIT
+        class="fixed top-4 left-4 z-50 bg-theme-blue border border-theme-white text-theme-white px-4 py-2 rounded text-white font-bold hover:bg-theme-red transition-colors">EXIT
         MISSION</a>
     <div id="starfield"></div>
 
     <div class="hud">
-        <div class="hud-item flex flex-col items-center"><span class="text-xs">OXYGEN</span>
+        <div class="hud-item flex flex-col items-center"><span class="text-xs text-theme-blue font-bold">OXYGEN</span>
             <div class="bar-bg">
                 <div id="oxy-bar" class="bar"></div>
             </div>
         </div>
-        <div class="hud-item flex flex-col items-center"><span class="text-xs">FUEL</span>
+        <div class="hud-item flex flex-col items-center"><span class="text-xs text-theme-blue font-bold">FUEL</span>
             <div class="bar-bg">
                 <div id="fuel-bar" class="bar fuel"></div>
             </div>
         </div>
         <div class="hud-item"><button id="hint-btn" class="game-btn">REQUEST HINT</button></div>
-        <div class="hud-item font-bold text-xl">SCORE: <span id="score-val">0</span></div>
+        <div class="hud-item font-bold text-xl text-theme-blue">SCORE: <span id="score-val">0</span></div>
     </div>
 
     <div class="terminal">
-        <h2 id="question-text" class="text-white">INITIALIZING...</h2>
+        <h2 id="question-text" class="text-theme-white">INITIALIZING...</h2>
     </div>
 
     <div id="hint-ship" class="hint-ship">
@@ -44,11 +60,11 @@
     </div>
 
     <div id="end-screen" class="overlay text-center">
-        <h1 id="status" class="text-4xl mb-4 text-red-500 font-black">MISSION OVER</h1>
-        <h2 class="text-2xl mb-8">SCORE: <span id="final-score">0</span></h2>
-        <div class="flex gap-4">
+        <h1 id="status" class="text-4xl mb-4 text-theme-red font-black">MISSION OVER</h1>
+        <h2 class="text-2xl mb-8 text-theme-blue">SCORE: <span id="final-score">0</span></h2>
+        <div class="flex gap-4 justify-center">
             <button class="game-btn px-8" onclick="location.reload()">RE-INITIALIZE</button>
-            <a href="/" class="game-btn px-8 bg-slate-600">ABORT TO BASE</a>
+            <a href="/" class="game-btn px-8 bg-theme-blue border border-theme-white">ABORT TO BASE</a>
         </div>
     </div>
 

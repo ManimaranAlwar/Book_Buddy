@@ -13,14 +13,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Load Puzzle
     fetch('/api/daily/box_pick')
-        .then(res => res.json())
+        .then(res => {
+            if (!res.ok) throw new Error("Server Error");
+            return res.json();
+        })
         .then(data => {
+            if (data.error) throw new Error(data.error);
             currentPuzzle = data;
             initGame();
         })
         .catch(err => {
             console.error(err);
-            alert("Error loading daily box.");
+            document.getElementById('riddle-text').textContent = "Failed to load puzzle.";
+            document.getElementById('riddle-emoji').textContent = "⚠️";
         });
 
     // Event Listeners

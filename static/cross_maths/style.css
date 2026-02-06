@@ -1,16 +1,23 @@
 :root {
-    --neon-cyan: #fff8f8;
-    --neon-green: #00ff66;
-    --neon-red: #f0f0f0;
-    --glass: rgba(4, 14, 127, 0.988);
+    --theme-red: #7D1424;
+    --theme-blue: #0F2C67;
+    --theme-white: #F7F7FD;
+
+    /* Mappings */
+    --neon-cyan: var(--theme-blue);
+    /* Text is now blue */
+    --neon-green: var(--theme-blue);
+    --neon-red: var(--theme-red);
+    --glass: rgba(247, 247, 253, 0.95);
+    /* theme-white opacity */
 }
 
 body {
     margin: 0;
     height: 100vh;
-    background: #ffffff;
+    background: var(--theme-white);
     font-family: 'Courier New', monospace;
-    color: var(--neon-cyan);
+    color: var(--theme-blue);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -23,7 +30,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: radial-gradient(white, rgba(255, 255, 255, .2) 2px, transparent 40px);
+    background-image: radial-gradient(var(--theme-blue), rgba(15, 44, 103, .2) 2px, transparent 40px);
     background-size: 550px 550px;
     opacity: 0.1;
     z-index: -1;
@@ -36,10 +43,10 @@ body {
 
 .terminal-container {
     background: var(--glass);
-    border: 2px solid var(--neon-cyan);
+    border: 2px solid var(--theme-blue);
     padding: 30px;
     border-radius: 5px;
-    box-shadow: 0 0 20px rgba(0, 242, 255, 0.2), inset 0 0 10px rgba(0, 242, 255, 0.1);
+    box-shadow: 0 0 20px rgba(15, 44, 103, 0.2), inset 0 0 10px rgba(15, 44, 103, 0.1);
     width: 500px;
     position: relative;
 }
@@ -74,28 +81,30 @@ body {
 }
 
 .static-cell {
-    background: rgba(137, 6, 6, 0.836);
+    background: var(--theme-red);
+    color: var(--theme-white);
 }
 
 .input-cell {
     background: transparent;
-    border: 1px solid #555;
-    color: white;
+    border: 1px solid var(--theme-blue);
+    color: var(--theme-blue);
     text-align: center;
     outline: none;
     transition: 0.3s;
 }
 
 .input-cell.correct {
-    border-color: var(--neon-green);
-    box-shadow: 0 0 10px var(--neon-green);
-    color: var(--neon-green);
+    border-color: var(--theme-blue);
+    box-shadow: 0 0 10px var(--theme-blue);
+    background: rgba(15, 44, 103, 0.1);
+    color: var(--theme-blue);
 }
 
 .input-cell.wrong {
-    border-color: red;
-    box-shadow: 0 0 10px var(--neon-red);
-    color: var(--neon-red);
+    border-color: var(--theme-red);
+    box-shadow: 0 0 10px var(--theme-red);
+    color: var(--theme-red);
 }
 
 .action-btn {
@@ -103,17 +112,17 @@ body {
     padding: 15px;
     margin-top: 20px;
     background: transparent;
-    border: 1px solid var(--neon-cyan);
-    color: var(--neon-cyan);
+    border: 1px solid var(--theme-blue);
+    color: var(--theme-blue);
     cursor: pointer;
     font-weight: bold;
     letter-spacing: 2px;
 }
 
 .action-btn:hover {
-    background: var(--neon-cyan);
-    color: black;
-    box-shadow: 0 0 20px var(--neon-cyan);
+    background: var(--theme-blue);
+    color: var(--theme-white);
+    box-shadow: 0 0 20px var(--theme-blue);
 }
 
 .status-msg {
@@ -125,17 +134,17 @@ body {
 }
 
 .success {
-    color: var(--neon-green);
-    text-shadow: 0 0 5px var(--neon-green);
+    color: var(--theme-blue);
+    text-shadow: 0 0 5px var(--theme-blue);
 }
 
 .status-msg.error {
-    color: red !important;
-    text-shadow: 0 0 5px red;
+    color: var(--theme-red) !important;
+    text-shadow: 0 0 5px var(--theme-red);
 }
 
 .nav-link {
-    color: white;
+    color: var(--theme-blue);
     text-decoration: none;
     margin: 0 10px;
     opacity: 0.7;

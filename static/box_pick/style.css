@@ -1,18 +1,35 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
 
+:root {
+    --theme-red: #7D1424;
+    --theme-blue: #0F2C67;
+    --theme-white: #F7F7FD;
+}
+
 body {
     font-family: 'Poppins', sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, var(--theme-white) 0%, #eef2ff 100%);
+    color: var(--theme-blue);
     min-height: 100vh;
     overflow-x: hidden;
 }
 
 .word-chip {
     transition: all 0.2s;
+    background-color: var(--theme-blue);
+    color: var(--theme-white);
+    border: 2px solid var(--theme-blue);
+}
+
+.word-chip:hover {
+    background-color: var(--theme-white);
+    color: var(--theme-blue);
+    border-color: var(--theme-blue);
 }
 
 .trash-can {
     transition: transform 0.2s;
+    color: var(--theme-red);
 }
 
 .drag-over {

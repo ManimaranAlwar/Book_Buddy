@@ -1,3 +1,24 @@
 @import url('https://fonts.googleapis.com/css2?family=Bangers&display=swap');
-.bangers { font-family: 'Bangers', cursive; }
-.tile { min-width: 60px; text-align: center; }
+
+:root {
+    --theme-red: #7D1424;
+    --theme-blue: #0F2C67;
+    --theme-white: #F7F7FD;
+}
+
+.bangers {
+    font-family: 'Bangers', cursive;
+}
+
+.tile {
+    min-width: 60px;
+    text-align: center;
+    background-color: var(--theme-white);
+    color: var(--theme-blue);
+    border: 2px solid var(--theme-blue);
+}
+
+body {
+    background-color: var(--theme-white);
+    color: var(--theme-blue);
+}

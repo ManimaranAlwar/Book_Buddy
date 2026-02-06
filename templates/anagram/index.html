@@ -6,54 +6,73 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ANAGARAM</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        theme: {
+                            red: '#7D1424',
+                            blue: '#0F2C67',
+                            white: '#F7F7FD',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
     <link href="https://fonts.googleapis.com/css2?family=Bangers&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/global.css">
     <link rel="stylesheet" href="/static/anagram/styles.css">
     <script src="/static/js/games-sdk.js"></script>
 </head>
 
-<body class="bg-slate-900 h-screen font-sans overflow-hidden">
+<body class="bg-theme-white h-screen font-sans overflow-hidden">
+    <a href="/"
+        class="fixed top-4 left-4 z-50 bg-theme-blue border-2 border-theme-blue text-theme-white px-4 py-2 rounded-xl font-bold hover:bg-theme-red hover:border-theme-red transition-all shadow-lg">←
+        EXIT LAB</a>
     <div id="app" class="h-full flex flex-col p-6 items-center justify-center">
 
         <div id="game-container" class="w-full max-w-xl">
-            <div class="flex justify-between text-white mb-6">
+            <div class="flex justify-between text-theme-blue mb-6">
                 <div class="text-xl font-bold">⏱️ <span id="timer">0s</span></div>
                 <div class="text-xl font-bold">🧪 Word: <span id="counter">1/10</span></div>
             </div>
 
-            <div class="bg-slate-800 p-8 rounded-3xl border-4 border-slate-700 shadow-2xl">
-                <h2 class="text-indigo-400 font-bold mb-2 uppercase tracking-widest text-xs text-center">Scientific
+            <div class="bg-theme-blue/5 p-8 rounded-3xl border-4 border-theme-blue/20 shadow-2xl backdrop-blur-sm">
+                <h2 class="text-theme-red font-bold mb-2 uppercase tracking-widest text-xs text-center">Scientific
                     Definition</h2>
-                <div id="hint" class="text-white text-center text-2xl font-semibold mb-8 italic">Loading...</div>
+                <div id="hint" class="text-theme-blue text-center text-2xl font-semibold mb-8 italic">Loading...</div>
 
                 <div id="scrambled-area" class="flex flex-wrap justify-center gap-3 mb-10 min-h-[80px]"></div>
 
-                <div class="text-center text-slate-500 mb-2 text-xs uppercase font-bold">Your Answer</div>
+                <div class="text-center text-theme-blue/60 mb-2 text-xs uppercase font-bold">Your Answer</div>
                 <div id="answer-area"
-                    class="bg-slate-900 min-h-[80px] rounded-2xl flex flex-wrap justify-center items-center gap-3 p-4 border-2 border-dashed border-slate-600">
+                    class="bg-theme-white min-h-[80px] rounded-2xl flex flex-wrap justify-center items-center gap-3 p-4 border-2 border-dashed border-theme-blue/30">
                 </div>
 
                 <div class="flex gap-4 mt-8">
                     <button onclick="checkAnswer()"
-                        class="flex-1 bg-indigo-600 text-white py-4 rounded-xl font-bold hover:bg-indigo-500 transition-all shadow-lg active:translate-y-1">CHECK
+                        class="flex-1 bg-theme-red text-theme-white py-4 rounded-xl font-bold hover:brightness-110 transition-all shadow-lg active:translate-y-1">CHECK
                         ANSWER</button>
                     <button onclick="resetCurrentWord()"
-                        class="px-6 bg-slate-700 text-white rounded-xl hover:bg-slate-600 transition-all shadow-lg">🔄</button>
+                        class="px-6 bg-theme-white border border-theme-blue text-theme-blue rounded-xl hover:bg-theme-blue/10 transition-all shadow-lg">🔄</button>
                 </div>
-                <div id="feedback" class="hidden text-red-400 text-center mt-4 font-bold animate-pulse"></div>
+                <div id="feedback" class="hidden text-theme-red text-center mt-4 font-bold animate-pulse"></div>
             </div>
         </div>
 
         <div id="victory-screen" class="hidden text-center">
-            <h1 class="text-7xl text-white font-['Bangers'] mb-4 tracking-wider">MISSION COMPLETE!</h1>
-            <p class="text-2xl text-slate-400 mb-8">Final Time: <span id="final-time" class="text-indigo-400"></span>
+            <h1 class="text-7xl text-theme-blue font-['Bangers'] mb-4 tracking-wider">MISSION COMPLETE!</h1>
+            <p class="text-2xl text-theme-blue/60 mb-8">Final Time: <span id="final-time" class="text-theme-red"></span>
             </p>
 
             <div class="flex gap-4 justify-center">
                 <button onclick="location.reload()"
-                    class="bg-indigo-600 text-white px-10 py-4 rounded-full font-bold text-xl hover:scale-110 transition-transform shadow-xl">PLAY
+                    class="bg-theme-red text-theme-white px-10 py-4 rounded-full font-bold text-xl hover:scale-110 transition-transform shadow-xl">PLAY
                     AGAIN</button>
                 <a href="/"
-                    class="bg-slate-600 text-white px-10 py-4 rounded-full font-bold text-xl hover:scale-110 transition-transform shadow-xl">EXIT
+                    class="bg-theme-white border-2 border-theme-blue text-theme-blue px-10 py-4 rounded-full font-bold text-xl hover:scale-110 transition-transform shadow-xl">EXIT
                     LAB</a>
             </div>
         </div>

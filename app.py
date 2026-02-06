@@ -39,14 +39,14 @@ def get_daily_content(game_type):
 
     try:
         if game_type == 'anagram':
-            with open('data/anagram.json', 'r') as f:
+            with open('data/anagram.json', 'r', encoding='utf-8') as f:
                 words = json.load(f)
             # Pick 10 random words for the day
             daily_words = random.sample(words, min(len(words), 10))
             return jsonify(daily_words)
             
         elif game_type == 'box_pick':
-            with open('data/box_pick.json', 'r') as f:
+            with open('data/box_pick.json', 'r', encoding='utf-8') as f:
                 puzzles = json.load(f)
             # Pick 1 puzzle based on day of year
             day_of_year = datetime.now().timetuple().tm_yday
@@ -59,13 +59,13 @@ def get_daily_content(game_type):
             return jsonify(levels) # Matchup sends all levels, logic is reliable in client
 
         elif game_type == 'space_run':
-            with open('data/space_run.json', 'r') as f:
+            with open('data/space_run.json', 'r', encoding='utf-8') as f:
                 questions = json.load(f)
             random.shuffle(questions)
             return jsonify(questions[:15]) # Send 15 qs
 
         elif game_type == 'cross_maths':
-             with open('data/cross_maths.json', 'r') as f:
+             with open('data/cross_maths.json', 'r', encoding='utf-8') as f:
                 levels = json.load(f)
              return jsonify(levels)
             

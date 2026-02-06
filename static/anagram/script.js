@@ -2,12 +2,7 @@ let game = { words: [], idx: 0, scrambled: [], selected: [], time: 0, timer: nul
 
 window.onload = async () => {
     GamesSDK.init(); // Init SDK
-    // Inject Back Button
-    const backBtn = document.createElement('a');
-    backBtn.href = "/";
-    backBtn.className = "absolute top-4 left-4 text-white font-bold bg-slate-700 px-4 py-2 rounded-xl hover:bg-slate-600 transition z-50";
-    backBtn.innerHTML = "← Hub";
-    document.body.appendChild(backBtn);
+    GamesSDK.init(); // Init SDK
 
     try {
         const res = await fetch('/api/daily/anagram');
