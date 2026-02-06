@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template
 
-anagram_bp = Blueprint('anagram', __name__, template_folder='templates')
+anagram_bp = Blueprint('anagram', __name__)
 
 @anagram_bp.route('/')
 def index():

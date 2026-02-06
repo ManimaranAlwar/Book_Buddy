@@ -2,7 +2,7 @@ import json
 import os
 from flask import Blueprint, render_template
 
-cross_maths_bp = Blueprint('cross_maths', __name__, template_folder='templates')
+cross_maths_bp = Blueprint('cross_maths', __name__)
 
 @cross_maths_bp.route('/')
 @cross_maths_bp.route('/level/<level_id>')

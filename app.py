@@ -71,9 +71,9 @@ def get_daily_content(game_type):
             return jsonify(questions[:15]) # Send 15 qs
 
         elif game_type == 'cross_maths':
-             with open('data/cross_maths.json', 'r', encoding='utf-8') as f:
+            with open('data/cross_maths.json', 'r', encoding='utf-8') as f:
                 levels = json.load(f)
-             return jsonify(levels)
+            return jsonify(levels)
             
     except Exception as e:
         return jsonify({"error": str(e)}), 500
