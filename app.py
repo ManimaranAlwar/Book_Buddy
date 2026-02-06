@@ -44,6 +44,12 @@ def get_daily_content(game_type):
             # Pick 10 random words for the day
             daily_words = random.sample(words, min(len(words), 10))
             return jsonify(daily_words)
+        
+
+
+
+
+        
             
         elif game_type == 'box_pick':
             with open('data/box_pick.json', 'r', encoding='utf-8') as f:
