@@ -38,7 +38,7 @@ def login_required(view):
 
 
 def get_admin_password():
-    return os.environ.get('ADMIN_PASSWORD', 'admin123')
+    return os.environ.get('ADMIN_PASSWORD', 'bookbuddyintern-2026')
 
 
 # ─────────────────────────────────────────────
