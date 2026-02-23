@@ -8,7 +8,8 @@
                 "includeFiles": [
                     "data/**",
                     "templates/**",
-                    "static/**"
+                    "static/**",
+                    "blueprints/**"
                 ]
             }
         }

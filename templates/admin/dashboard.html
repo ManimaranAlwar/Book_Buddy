@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | Book Buddy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: #F7F7FD;
+        }
+
+        .glass {
+            background: rgba(15, 44, 103, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(15, 44, 103, 0.1);
+        }
+
+        .card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(15, 44, 103, 0.1);
+        }
+    </style>
+</head>
+
+<body class="bg-theme-white text-[#0F2C67]">
+    <nav class="glass sticky top-0 z-50 px-8 py-4 flex justify-between items-center mb-8">
+        <div class="flex items-center gap-4">
+            <div class="w-10 h-10 bg-[#7D1424] rounded-full flex items-center justify-center text-xl">🏠</div>
+            <h1 class="text-2xl font-black">ADMIN DASHBOARD</h1>
+        </div>
+        <div class="flex items-center gap-6">
+            <a href="/" class="text-sm font-bold opacity-60 hover:opacity-100 transition">View Site</a>
+            <a href="/admin/logout"
+                class="bg-[#7D1424] text-white px-4 py-2 rounded-lg text-sm font-bold shadow-md hover:bg-[#0F2C67] transition">Logout</a>
+        </div>
+    </nav>
+
+    <main class="container mx-auto px-6 max-w-6xl">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div
+            class="p-4 mb-6 rounded-xl border-l-4 {% if category == 'success' %}bg-green-100 border-green-500 text-green-700{% else %}bg-red-100 border-red-500 text-red-700{% endif %}">
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+        <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-10 rounded-xl" role="alert">
+            <p class="font-bold">Vercel Persistence Note</p>
+            <p class="text-sm">Changes made here are saved to the local filesystem. On Vercel, these changes will NOT
+                persist after a "cold start" (deployment reset). For permanent changes, edit the JSON files locally and
+                redeploy.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Anagram -->
+            <a href="/admin/anagram" class="card glass p-8 rounded-3xl flex flex-col items-center text-center">
+                <div class="text-6xl mb-4">🧪</div>
+                <h3 class="text-2xl font-bold mb-2">Anagram</h3>
+                <p class="text-sm opacity-60 mb-4">Manage word unscrambling puzzles</p>
+                <div class="bg-[#0F2C67] text-white px-4 py-1 rounded-full text-xs font-bold">{{ stats.anagram }} Items
+                </div>
+            </a>
+
+            <!-- Box Pick -->
+            <a href="/admin/box-pick" class="card glass p-8 rounded-3xl flex flex-col items-center text-center">
+                <div class="text-6xl mb-4">🎁</div>
+                <h3 class="text-2xl font-bold mb-2">Box Pick</h3>
+                <p class="text-sm opacity-60 mb-4">Manage grouping riddles</p>
+                <div class="bg-[#0F2C67] text-white px-4 py-1 rounded-full text-xs font-bold">{{ stats.box_pick }} Items
+                </div>
+            </a>
+
+            <!-- Matchup -->
+            <a href="/admin/matchup" class="card glass p-8 rounded-3xl flex flex-col items-center text-center">
+                <div class="text-6xl mb-4">🧩</div>
+                <h3 class="text-2xl font-bold mb-2">Matchup</h3>
+                <p class="text-sm opacity-60 mb-4">Manage memory pair levels</p>
+                <div class="bg-[#0F2C67] text-white px-4 py-1 rounded-full text-xs font-bold">{{ stats.matchup }} Items
+                </div>
+            </a>
+
+            <!-- Space Run -->
+            <a href="/admin/space-run" class="card glass p-8 rounded-3xl flex flex-col items-center text-center">
+                <div class="text-6xl mb-4">🚀</div>
+                <h3 class="text-2xl font-bold mb-2">Space Run</h3>
+                <p class="text-sm opacity-60 mb-4">Manage action-quiz questions</p>
+                <div class="bg-[#0F2C67] text-white px-4 py-1 rounded-full text-xs font-bold">{{ stats.space_run }}
+                    Items</div>
+            </a>
+
+            <!-- Cross Maths -->
+            <a href="/admin/cross-maths" class="card glass p-8 rounded-3xl flex flex-col items-center text-center">
+                <div class="text-6xl mb-4">🧮</div>
+                <h3 class="text-2xl font-bold mb-2">Cross Maths</h3>
+                <p class="text-sm opacity-60 mb-4">Manage math grid levels</p>
+                <div class="bg-[#0F2C67] text-white px-4 py-1 rounded-full text-xs font-bold">{{ stats.cross_maths }}
+                    Items</div>
+            </a>
+        </div>
+    </main>
+</body>
+
+</html>

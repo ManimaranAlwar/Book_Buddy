@@ -4,21 +4,24 @@ import json
 import random
 from datetime import datetime
 
-# Import Blueprints (We will create these next)
+# Import Blueprints
 from blueprints.anagram import anagram_bp
 from blueprints.box_pick import box_pick_bp
 from blueprints.cross_maths import cross_maths_bp
 from blueprints.matchup import matchup_bp
 from blueprints.space_run import space_run_bp
+from blueprints.admin import admin_bp
 
 app = Flask(__name__)
+app.secret_key = os.environ.get('SECRET_KEY', 'dev-secret-key-123')
 
-# Register Blueprints (Commented out until files exist)
+# Register Blueprints
 app.register_blueprint(anagram_bp, url_prefix='/anagram')
 app.register_blueprint(box_pick_bp, url_prefix='/box-pick')
 app.register_blueprint(cross_maths_bp, url_prefix='/cross-maths')
 app.register_blueprint(matchup_bp, url_prefix='/matchup')
 app.register_blueprint(space_run_bp, url_prefix='/space-run')
+app.register_blueprint(admin_bp, url_prefix='/admin')
 
 @app.route('/')
 def dashboard():
@@ -81,4 +84,4 @@ def get_daily_content(game_type):
     return jsonify({"error": "Unknown game type"}), 404
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    app.run(debug=True, port=5001)

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Box Pick | Book Buddy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: #F7F7FD;
+        }
+
+        .glass {
+            background: rgba(15, 44, 103, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(15, 44, 103, 0.1);
+        }
+    </style>
+</head>
+
+<body class="bg-theme-white text-[#0F2C67] min-h-screen pb-20">
+    <nav class="glass sticky top-0 z-50 px-8 py-4 flex justify-between items-center mb-8">
+        <div class="flex items-center gap-4">
+            <a href="/admin"
+                class="w-10 h-10 bg-[#7D1424] rounded-full flex items-center justify-center text-xl hover:scale-110 transition">🎁</a>
+            <h1 class="text-2xl font-black">BOX PICK EDITOR</h1>
+        </div>
+        <a href="/admin" class="text-sm font-bold opacity-60 hover:opacity-100 transition">Back to Dashboard</a>
+    </nav>
+
+    <main class="container mx-auto px-6 max-w-5xl">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div
+            class="p-4 mb-6 rounded-xl border-l-4 {% if category == 'success' %}bg-green-100 border-green-500 text-green-700{% else %}bg-red-100 border-red-500 text-red-700{% endif %}">
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+        <!-- Add New Puzzle -->
+        <div class="glass p-8 rounded-3xl mb-12 shadow-sm">
+            <form action="/admin/box-pick/add" method="POST">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+                    <div class="md:col-span-3">
+                        <label class="text-xs font-bold uppercase opacity-60 ml-2">Riddle</label>
+                        <input type="text" name="riddle" placeholder="e.g. I'm something you wear when it's cold"
+                            required
+                            class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-[#7D1424]">
+                    </div>
+                    <div>
+                        <label class="text-xs font-bold uppercase opacity-60 ml-2">Emoji</label>
+                        <input type="text" name="emoji" placeholder="e.g. 🧥"
+                            class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-[#7D1424]">
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div>
+                        <label class="text-xs font-bold uppercase opacity-60 ml-2">Correct Words (comma
+                            separated)</label>
+                        <textarea name="correctWords" placeholder="jacket, coat, scarf..." required
+                            class="w-full h-24 px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-[#7D1424]"></textarea>
+                    </div>
+                    <div>
+                        <label class="text-xs font-bold uppercase opacity-60 ml-2">Wrong Words (comma separated)</label>
+                        <textarea name="wrongWords" placeholder="shorts, t-shirt, flip flops..." required
+                            class="w-full h-24 px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-[#7D1424]"></textarea>
+                    </div>
+                </div>
+                <button type="submit"
+                    class="w-full bg-[#0F2C67] text-white font-bold py-4 rounded-xl hover:bg-[#7D1424] shadow-md transition">
+                    ADD RIDDLE
+                </button>
+            </form>
+        </div>
+
+        <div class="space-y-6">
+            {% for puzzle in puzzles %}
+            <div class="glass p-6 rounded-3xl shadow-sm">
+                <form action="/admin/box-pick/edit/{{ loop.index0 }}" method="POST">
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="bg-[#0F2C67] text-white px-3 py-1 rounded-full text-xs font-bold">Puzzle #{{
+                            puzzle.id }}</span>
+                        <div class="flex gap-2">
+                            <button type="submit" class="text-blue-600 font-bold text-sm hover:underline">Save
+                                Changes</button>
+                            <span class="text-gray-300">|</span>
+                            <button type="submit" form="del-{{ loop.index0 }}"
+                                class="text-red-500 font-bold text-sm hover:underline">Delete</button>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-6 gap-4 mb-4">
+                        <div class="md:col-span-1 text-center">
+                            <input type="text" name="emoji" value="{{ puzzle.emoji }}"
+                                class="w-full text-center py-2 bg-white/50 border rounded-lg">
+                        </div>
+                        <div class="md:col-span-5">
+                            <input type="text" name="riddle" value="{{ puzzle.riddle }}"
+                                class="w-full px-3 py-2 bg-white/50 border rounded-lg">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="text-[10px] font-bold uppercase opacity-50 ml-1">Correct</label>
+                            <textarea name="correctWords"
+                                class="w-full h-20 text-sm px-3 py-2 bg-white/50 border rounded-lg">{{ puzzle.correctWords | join(', ') }}</textarea>
+                        </div>
+                        <div>
+                            <label class="text-[10px] font-bold uppercase opacity-50 ml-1">Wrong</label>
+                            <textarea name="wrongWords"
+                                class="w-full h-20 text-sm px-3 py-2 bg-white/50 border rounded-lg">{{ puzzle.wrongWords | join(', ') }}</textarea>
+                        </div>
+                    </div>
+                </form>
+                <form id="del-{{ loop.index0 }}" action="/admin/box-pick/delete/{{ loop.index0 }}" method="POST"
+                    onsubmit="return confirm('Delete this puzzle?')"></form>
+            </div>
+            {% endfor %}
+        </div>
+    </main>
+</body>
+
+</html>
