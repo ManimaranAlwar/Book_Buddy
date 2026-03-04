@@ -3,18 +3,14 @@
     "builds": [
         {
             "src": "app.py",
-            "use": "@vercel/python",
-            "config": {
-                "includeFiles": [
-                    "data/**",
-                    "templates/**",
-                    "static/**",
-                    "blueprints/**"
-                ]
-            }
+            "use": "@vercel/python"
         }
     ],
     "routes": [
+        {
+            "src": "/static/(.*)",
+            "dest": "/static/$1"
+        },
         {
             "src": "/(.*)",
             "dest": "app.py"

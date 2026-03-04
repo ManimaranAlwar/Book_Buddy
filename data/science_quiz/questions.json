@@ -1,0 +1,102 @@
+[
+    {
+        "question": "Which element has the chemical symbol 'O'?",
+        "options": [
+            "Gold",
+            "Oxygen",
+            "Osmium",
+            "Oxide"
+        ],
+        "answer": "Oxygen"
+    },
+    {
+        "question": "Which gas do plants use for photosynthesis?",
+        "options": [
+            "Oxygen",
+            "Nitrogen",
+            "Carbon dioxide",
+            "Hydrogen"
+        ],
+        "answer": "Carbon dioxide"
+    },
+    {
+        "question": "What is the center of an atom called?",
+        "options": [
+            "Electron",
+            "Proton",
+            "Nucleus",
+            "Neutron"
+        ],
+        "answer": "Nucleus"
+    },
+    {
+        "question": "Which planet is known as the Red Planet?",
+        "options": [
+            "Venus",
+            "Mars",
+            "Jupiter",
+            "Saturn"
+        ],
+        "answer": "Mars"
+    },
+    {
+        "question": "What is the boiling point of water at sea level?",
+        "options": [
+            "90°C",
+            "100°C",
+            "120°C",
+            "80°C"
+        ],
+        "answer": "100°C"
+    },
+    {
+        "question": "Which organ in the human body is responsible for pumping blood?",
+        "options": [
+            "Lungs",
+            "Liver",
+            "Heart",
+            "Kidneys"
+        ],
+        "answer": "Heart"
+    },
+    {
+        "question": "What is the most abundant gas in Earth's atmosphere?",
+        "options": [
+            "Oxygen",
+            "Nitrogen",
+            "Carbon dioxide",
+            "Argon"
+        ],
+        "answer": "Nitrogen"
+    },
+    {
+        "question": "What is the powerhouse of the cell?",
+        "options": [
+            "Nucleus",
+            "Ribosome",
+            "Mitochondria",
+            "Vacuole"
+        ],
+        "answer": "Mitochondria"
+    },
+    {
+        "question": "How many states of matter are commonly recognized?",
+        "options": [
+            "2",
+            "3",
+            "4",
+            "5"
+        ],
+        "answer": "3"
+    },
+    {
+        "question": "What is the speed of light approx?",
+        "options": [
+            "300,000 km/s",
+            "150,000 km/s",
+            "500,000 km/s",
+            "1,000,000 km/s"
+        ],
+        "answer": "300,000 km/s"
+    }
+]

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Quiz Master Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='science_quiz/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body class="admin-body">
+    <div class="dashboard">
+        <aside class="sidebar">
+            <h2>Quiz Master 🚀</h2>
+            <nav>
+                <a href="/" class="nav-item">🎮 View Quiz</a>
+                <a href="/science-quiz/admin" class="nav-item active">📝 Manage Bank</a>
+            </nav>
+        </aside>
+
+        <main class="content">
+            <header>
+                <h1>Question Bank Management</h1>
+                <p>Add, edit, or remove science challenges!</p>
+            </header>
+
+            <section class="admin-card">
+                <h3>➕ Add New Question</h3>
+                <form action="/science-quiz/api/add" method="POST" class="grid-form">
+                    <div class="full-width">
+                        <label>Question Text</label>
+                        <input type="text" name="question" placeholder="e.g., What planet is red?" required>
+                    </div>
+                    <div>
+                        <label>Option 1</label>
+                        <input type="text" name="opt1" required>
+                    </div>
+                    <div>
+                        <label>Option 2</label>
+                        <input type="text" name="opt2" required>
+                    </div>
+                    <div>
+                        <label>Option 3</label>
+                        <input type="text" name="opt3" required>
+                    </div>
+                    <div>
+                        <label>Option 4</label>
+                        <input type="text" name="opt4" required>
+                    </div>
+                    <div class="full-width highlight-input">
+                        <label>Correct Answer (Must match an option exactly)</label>
+                        <input type="text" name="correct" placeholder="Type the correct answer here..." required>
+                    </div>
+                    <button type="submit" class="save-btn">Add to Bank ✨</button>
+                </form>
+            </section>
+
+            <section class="question-list">
+                <h3>📚 Current Questions ({{ questions|list|length }})</h3>
+                <div class="q-grid">
+                    {% for i, q in questions %}
+                    <div class="q-card">
+                        <div class="q-info">
+                            <span class="q-tag">Question #{{ i + 1 }}</span>
+                            <p>{{ q.question }}</p>
+                        </div>
+                        <form action="/science-quiz/api/delete/{{ i }}" method="POST">
+                            <button type="submit" class="del-icon">Delete 🗑️</button>
+                        </form>
+                    </div>
+                    {% endfor %}
+                </div>
+            </section>
+        </main>
+    </div>
+</body>
+
+</html>

@@ -4,55 +4,200 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Space Math Terminal | Sector {{ level_id }}</title>
+    <title>SECTOR_{{ level_id }} | CROSS MATHS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        theme: {
+                            red: '#7D1424',
+                            blue: '#0F2C67',
+                            white: '#F7F7FD',
+                        }
+                    },
+                    fontFamily: {
+                        outfit: ['Outfit', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700;900&family=JetBrains+Mono:wght@400;700&display=swap"
+        rel="stylesheet" />
     <link rel="stylesheet" href="/static/css/global.css">
-    <link rel="stylesheet" href="/static/cross_maths/style.css">
+    <script src="/static/js/games-sdk.js"></script>
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: #F7F7FD;
+            color: #0F2C67;
+            overflow: hidden;
+        }
+
+        .glass {
+            background: rgba(15, 44, 103, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(15, 44, 103, 0.1);
+        }
+
+        .cyber-grid {
+            background-image:
+                linear-gradient(rgba(15, 44, 103, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(15, 44, 103, 0.05) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        .cell {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .input-cell:focus {
+            background: rgba(15, 44, 103, 0.05);
+            border-color: #0F2C67;
+            box-shadow: 0 0 15px rgba(15, 44, 103, 0.1);
+            transform: scale(1.05);
+        }
+
+        .input-cell.correct {
+            border-color: #10b981;
+            background: rgba(16, 185, 129, 0.05);
+            color: #059669;
+        }
+
+        .input-cell.wrong {
+            border-color: #7D1424;
+            background: rgba(125, 20, 36, 0.05);
+            color: #7D1424;
+        }
+
+        @keyframes pulse-glow {
+
+            0%,
+            100% {
+                box-shadow: 0 0 5px rgba(15, 44, 103, 0.1);
+            }
+
+            50% {
+                box-shadow: 0 0 20px rgba(15, 44, 103, 0.2);
+            }
+        }
+
+        .status-ready {
+            color: #0F2C67;
+            animation: pulse-glow 2s infinite;
+        }
+
+        @keyframes glitch {
+            0% {
+                transform: translate(0);
+            }
+
+            20% {
+                transform: translate(-2px, 2px);
+            }
+
+            40% {
+                transform: translate(-2px, -2px);
+            }
+
+            60% {
+                transform: translate(2px, 2px);
+            }
+
+            80% {
+                transform: translate(2px, -2px);
+            }
+
+            100% {
+                transform: translate(0);
+            }
+        }
+
+        .glitch-hover:hover {
+            animation: glitch 0.3s infinite;
+        }
+    </style>
 </head>
 
-<body>
-    <div class="stars-overlay"></div>
-    <div style="position:fixed; top:10px; left:10px; z-index:100;">
-        <a href="/" class="nav-link" style="font-size: 1.2rem;">⚡ RETURN TO HUB</a>
-    </div>
+<body class="min-h-screen relative flex items-center justify-center">
+    <!-- Cyber Background -->
+    <div class="fixed inset-0 cyber-grid z-0"></div>
+    <div class="fixed top-[-20%] left-[-10%] w-[50%] h-[50%] bg-theme-blue/5 rounded-full blur-[120px] z-0"></div>
+    <div class="fixed bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-theme-red/5 rounded-full blur-[100px] z-0"></div>
 
-    <div class="main-wrapper">
-        <div class="terminal-container">
-            <div class="nav-header" style="display:flex; justify-content:space-between; margin-bottom:20px;">
-                <span class="sector-id">SYSTEM_STATUS: ACTIVE</span>
+    <nav class="fixed top-0 left-0 right-0 p-8 flex justify-between items-center z-50">
+        <a href="/"
+            class="glass px-6 py-3 rounded-2xl flex items-center gap-2 font-black hover:bg-theme-blue hover:text-white transition-all group">
+            <span class="group-hover:-translate-x-1 transition-transform">←</span> EXIT SECTOR
+        </a>
+        <div class="glass px-8 py-3 rounded-2xl">
+            <div class="text-[10px] font-black uppercase tracking-[0.3em] text-theme-blue/40 text-center mb-1">
+                Navigation Status</div>
+            <div class="font-black text-theme-blue">SECTOR_ID: <span class="text-theme-red">{{ level_id }}</span></div>
+        </div>
+    </nav>
+
+    <main class="relative z-10 w-full max-w-2xl px-6 pt-12">
+        <div class="glass rounded-[3rem] p-12 border-2 border-theme-blue/5 shadow-2xl overflow-hidden relative">
+            <div class="absolute top-0 right-0 p-12 text-9xl opacity-[0.02] font-black pointer-events-none">{{ level_id
+                }}</div>
+
+            <div class="flex justify-between items-end mb-12">
+                <div>
+                    <div class="text-[10px] font-black uppercase tracking-[0.2em] text-theme-blue/40 mb-2">Authenticated
+                        Pilot</div>
+                    <div class="text-3xl font-black text-theme-blue tracking-tighter" id="display-name">---</div>
+                </div>
+                <div class="text-right">
+                    <div class="text-[10px] font-black uppercase tracking-[0.2em] text-theme-blue/40 mb-2">Time to Warp
+                    </div>
+                    <div class="text-3xl font-black text-theme-red tabular-nums" id="timer">T-MINUS: 00:00</div>
+                </div>
             </div>
 
-            <div class="terminal-header" style="text-align:center; margin-bottom:20px;">
-                <div class="glitch-wrapper">PILOT: <span id="display-name" class="neon-text">---</span></div>
-                <div id="timer" class="timer-display">T-MINUS: 00:00</div>
-            </div>
-
-            <h2 class="sector-title" style="text-align:center;">SECTOR_{{ level_id }}</h2>
-
-            <div class="grid-layer" id="math-grid">
+            <!-- Math Grid -->
+            <div class="flex flex-col gap-3 items-center mb-12" id="math-grid">
                 {% for r in range(matrix|length) %}
-                <div class="grid-row">
+                <div class="flex gap-3">
                     {% for c in range(matrix[r]|length) %}
                     {% set cell = matrix[r][c] %}
                     {% if cell == "." %}
-                    <div class="cell blocked"></div>
+                    <div class="w-14 h-14 rounded-xl"></div>
                     {% elif cell == "_" %}
-                    <input type="text" class="cell input-cell" data-ans="{{ answers[r ~ '-' ~ c] }}" maxlength="3"
-                        autocomplete="off">
+                    <input type="text"
+                        class="w-14 h-14 glass rounded-xl text-center font-black text-xl text-theme-blue outline-none border-2 border-theme-blue/10 focus:border-theme-blue transition-all input-cell"
+                        data-ans="{{ answers[r ~ '-' ~ c] }}" maxlength="3" autocomplete="off">
                     {% else %}
-                    <div class="cell static-cell">{{ cell }}</div>
+                    <div
+                        class="w-14 h-14 flex items-center justify-center font-black text-2xl text-theme-blue/40 font-mono">
+                        {{ cell }}
+                    </div>
                     {% endif %}
                     {% endfor %}
                 </div>
                 {% endfor %}
             </div>
 
-            <div id="status-msg" class="status-msg">WAITING FOR INPUT...</div>
-            <button class="action-btn" id="warp-btn" onclick="validateTerminal()">INITIATE WARP</button>
+            <div class="space-y-6">
+                <div id="status-msg"
+                    class="text-center font-black text-xs uppercase tracking-[0.3em] text-theme-blue/30 h-4">
+                    AWAITING COORDINATES...
+                </div>
+
+                <button id="warp-btn" onclick="validateTerminal()"
+                    class="w-full bg-theme-blue text-white py-6 rounded-[2rem] font-black text-xl hover:shadow-2xl hover:shadow-theme-blue/20 transition-all active:scale-95 group glitch-hover">
+                    INITIATE WARP SPEED <span
+                        class="inline-block group-hover:translate-x-1 transition-transform ml-2">→</span>
+                </button>
+            </div>
         </div>
-    </div>
-    <script>
-        window.currentLevel = "{{ level_id }}";
-    </script>
+    </main>
+
+    <script>window.currentLevel = "{{ level_id }}";</script>
     <script src="/static/js/games-sdk.js"></script>
     <script src="/static/cross_maths/script.js"></script>
 </body>

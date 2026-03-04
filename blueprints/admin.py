@@ -94,6 +94,22 @@ def dashboard():
         stats['cross_maths'] = len(_read('cross_maths.json'))
     except Exception:
         stats['cross_maths'] = '?'
+    try:
+        stats['science_quiz'] = len(_read('science_quiz/questions.json'))
+    except Exception:
+        stats['science_quiz'] = '?'
+    try:
+        stats['young_scientist'] = len(_read('young_scientist/questions.json'))
+    except Exception:
+        stats['young_scientist'] = '?'
+    try:
+        stats['hidden'] = len(_read('hidden/levels.json'))
+    except Exception:
+        stats['hidden'] = '?'
+    try:
+        stats['mr'] = 1 # Single config file
+    except Exception:
+        stats['mr'] = '?'
     return render_template('admin/dashboard.html', stats=stats)
 
 
@@ -382,3 +398,116 @@ def cross_maths_delete(key):
         _write('cross_maths.json', levels)
         flash(f'Level {key} deleted.', 'success')
     return redirect(url_for('admin.cross_maths'))
+
+
+# ─────────────────────────────────────────────
+# SCIENCE QUIZ
+# ─────────────────────────────────────────────
+
+@admin_bp.route('/science-quiz', methods=['GET'])
+@login_required
+def science_quiz():
+    questions = _read('science_quiz/questions.json')
+    return render_template('admin/science_quiz.html', questions=questions)
+
+
+@admin_bp.route('/science-quiz/add', methods=['POST'])
+@login_required
+def science_quiz_add():
+    questions = _read('science_quiz/questions.json')
+    q = request.form.get('question', '').strip()
+    opts = [
+        request.form.get('opt1', '').strip(),
+        request.form.get('opt2', '').strip(),
+        request.form.get('opt3', '').strip(),
+        request.form.get('opt4', '').strip()
+    ]
+    ans = request.form.get('correct', '').strip()
+    if q and all(opts) and ans:
+        questions.append({'question': q, 'options': opts, 'answer': ans})
+        _write('science_quiz/questions.json', questions)
+        flash('Question added!', 'success')
+    return redirect(url_for('admin.science_quiz'))
+
+
+@admin_bp.route('/science-quiz/delete/<int:idx>', methods=['POST'])
+@login_required
+def science_quiz_delete(idx):
+    questions = _read('science_quiz/questions.json')
+    if 0 <= idx < len(questions):
+        questions.pop(idx)
+        _write('science_quiz/questions.json', questions)
+        flash('Question deleted.', 'success')
+    return redirect(url_for('admin.science_quiz'))
+
+
+# ─────────────────────────────────────────────
+# YOUNG SCIENTIST (Recipes)
+# ─────────────────────────────────────────────
+
+@admin_bp.route('/young-scientist', methods=['GET'])
+@login_required
+def young_scientist():
+    recipes = _read('young_scientist/questions.json')
+    return render_template('admin/young_scientist.html', recipes=recipes)
+
+
+@admin_bp.route('/young-scientist/add', methods=['POST'])
+@login_required
+def young_scientist_add():
+    recipes = _read('young_scientist/questions.json')
+    item1 = request.form.get('item1', '').strip()
+    item2 = request.form.get('item2', '').strip()
+    res = request.form.get('result', '').strip()
+    expl = request.form.get('explanation', '').strip()
+    if item1 and item2 and res:
+        recipes.append({
+            'item1': item1,
+            'item2': item2,
+            'result': res,
+            'explanation': expl
+        })
+        _write('young_scientist/questions.json', recipes)
+        flash('Recipe added!', 'success')
+    return redirect(url_for('admin.young_scientist'))
+
+
+@admin_bp.route('/young-scientist/delete/<int:idx>', methods=['POST'])
+@login_required
+def young_scientist_delete(idx):
+    recipes = _read('young_scientist/questions.json')
+    if 0 <= idx < len(recipes):
+        recipes.pop(idx)
+        _write('young_scientist/questions.json', recipes)
+        flash('Recipe deleted.', 'success')
+    return redirect(url_for('admin.young_scientist'))
+
+
+# ─────────────────────────────────────────────
+# HIDDEN OBJECT
+# ─────────────────────────────────────────────
+
+@admin_bp.route('/hidden', methods=['GET'])
+@login_required
+def hidden():
+    levels = _read('hidden/levels.json')
+    return render_template('admin/hidden_object.html', levels=levels)
+
+
+# ─────────────────────────────────────────────
+# MIXED REALITY
+# ─────────────────────────────────────────────
+
+@admin_bp.route('/mixed-reality', methods=['GET', 'POST'])
+@login_required
+def mixed_reality():
+    config = _read('mr/math.json')
+    if request.method == 'POST':
+        config['spawnRate'] = int(request.form.get('spawnRate', 320))
+        config['currentSpeed'] = float(request.form.get('currentSpeed', 0.0022))
+        config['speedIncrement'] = float(request.form.get('speedIncrement', 0.0001))
+        config['mathRange'] = int(request.form.get('mathRange', 5))
+        _write('mr/math.json', config)
+        flash('MR config updated!', 'success')
+        return redirect(url_for('admin.mixed_reality'))
+    return render_template('admin/mixed_reality.html', config=config)

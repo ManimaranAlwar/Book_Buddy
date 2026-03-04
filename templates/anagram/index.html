@@ -1,10 +1,10 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ANAGARAM</title>
+    <title>ANAGRAM | BOOK-BUDDY</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -16,68 +16,167 @@
                             blue: '#0F2C67',
                             white: '#F7F7FD',
                         }
+                    },
+                    fontFamily: {
+                        outfit: ['Outfit', 'sans-serif'],
                     }
                 }
             }
         }
     </script>
-    <link href="https://fonts.googleapis.com/css2?family=Bangers&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/static/css/global.css">
-    <link rel="stylesheet" href="/static/anagram/styles.css">
     <script src="/static/js/games-sdk.js"></script>
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: #F7F7FD;
+            color: #0F2C67;
+            overflow: hidden;
+        }
+
+        .glass {
+            background: rgba(15, 44, 103, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(15, 44, 103, 0.1);
+        }
+
+        .tile {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .tile:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 10px 20px rgba(15, 44, 103, 0.15);
+            background: #7D1424;
+            color: white;
+            border-color: #7D1424;
+        }
+
+        .tile:active {
+            transform: scale(0.95);
+        }
+
+        .answer-slot {
+            transition: all 0.3s ease;
+        }
+
+        @keyframes bounce-in {
+            0% {
+                transform: scale(0.3);
+                opacity: 0;
+            }
+
+            50% {
+                transform: scale(1.05);
+                opacity: 1;
+            }
+
+            70% {
+                transform: scale(0.9);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .animate-bounce-in {
+            animation: bounce-in 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+    </style>
 </head>
 
-<body class="bg-theme-white h-screen font-sans overflow-hidden">
-    <a href="/"
-        class="fixed top-4 left-4 z-50 bg-theme-blue border-2 border-theme-blue text-theme-white px-4 py-2 rounded-xl font-bold hover:bg-theme-red hover:border-theme-red transition-all shadow-lg">←
-        EXIT LAB</a>
-    <div id="app" class="h-full flex flex-col p-6 items-center justify-center">
+<body class="min-h-screen relative">
+    <!-- Animated background elements -->
+    <div class="fixed top-[-10%] left-[-10%] w-[40%] h-[40%] bg-theme-blue/5 rounded-full blur-[100px] z-0"></div>
+    <div class="fixed bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-theme-red/5 rounded-full blur-[100px] z-0"></div>
 
-        <div id="game-container" class="w-full max-w-xl">
-            <div class="flex justify-between text-theme-blue mb-6">
-                <div class="text-xl font-bold">⏱️ <span id="timer">0s</span></div>
-                <div class="text-xl font-bold">🧪 Word: <span id="counter">1/10</span></div>
+    <nav class="relative z-10 p-6 flex justify-between items-center">
+        <a href="/"
+            class="glass px-6 py-3 rounded-2xl flex items-center gap-2 font-bold hover:bg-theme-blue hover:text-white transition-all group">
+            <span class="group-hover:-translate-x-1 transition-transform">←</span> EXIT LAB
+        </a>
+        <div class="glass px-6 py-3 rounded-2xl">
+            <h1 class="text-xl font-black tracking-tighter">ANAGRAM CHALLENGE</h1>
+        </div>
+    </nav>
+
+    <main class="relative z-10 max-w-4xl mx-auto px-6 pt-12">
+        <div id="game-container">
+            <div class="flex justify-between items-end mb-8">
+                <div class="glass p-4 rounded-2xl min-w-[120px]">
+                    <div class="text-[10px] uppercase font-bold text-theme-blue/40 mb-1">Time Elapsed</div>
+                    <div class="text-3xl font-black tabular-nums" id="timer">00s</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-sm font-bold text-theme-red uppercase tracking-[0.2em] mb-2">Scientific Definition
+                    </div>
+                    <div id="hint" class="text-2xl font-bold italic max-w-2xl text-theme-blue">Loading definition...
+                    </div>
+                </div>
+                <div class="glass p-4 rounded-2xl min-w-[120px] text-right">
+                    <div class="text-[10px] uppercase font-bold text-theme-blue/40 mb-1">Progress</div>
+                    <div class="text-3xl font-black" id="counter">1/10</div>
+                </div>
             </div>
 
-            <div class="bg-theme-blue/5 p-8 rounded-3xl border-4 border-theme-blue/20 shadow-2xl backdrop-blur-sm">
-                <h2 class="text-theme-red font-bold mb-2 uppercase tracking-widest text-xs text-center">Scientific
-                    Definition</h2>
-                <div id="hint" class="text-theme-blue text-center text-2xl font-semibold mb-8 italic">Loading...</div>
+            <!-- Scrambled Letters -->
+            <div class="mb-12">
+                <div id="scrambled-area" class="flex flex-wrap justify-center gap-4 min-h-[100px]">
+                    <!-- Tiles injected here -->
+                </div>
+            </div>
 
-                <div id="scrambled-area" class="flex flex-wrap justify-center gap-3 mb-10 min-h-[80px]"></div>
-
-                <div class="text-center text-theme-blue/60 mb-2 text-xs uppercase font-bold">Your Answer</div>
+            <!-- Answer Section -->
+            <div class="relative max-w-2xl mx-auto">
+                <div
+                    class="absolute -top-3 left-1/2 -translate-x-1/2 glass px-4 py-1 rounded-full text-[10px] font-black uppercase text-theme-blue/50 z-10">
+                    Construct Your Answer
+                </div>
                 <div id="answer-area"
-                    class="bg-theme-white min-h-[80px] rounded-2xl flex flex-wrap justify-center items-center gap-3 p-4 border-2 border-dashed border-theme-blue/30">
+                    class="glass min-h-[120px] rounded-[2rem] flex flex-wrap justify-center items-center gap-4 p-8 border-2 border-dashed border-theme-blue/10">
+                    <!-- Answer tiles injected here -->
                 </div>
-
-                <div class="flex gap-4 mt-8">
-                    <button onclick="checkAnswer()"
-                        class="flex-1 bg-theme-red text-theme-white py-4 rounded-xl font-bold hover:brightness-110 transition-all shadow-lg active:translate-y-1">CHECK
-                        ANSWER</button>
-                    <button onclick="resetCurrentWord()"
-                        class="px-6 bg-theme-white border border-theme-blue text-theme-blue rounded-xl hover:bg-theme-blue/10 transition-all shadow-lg">🔄</button>
-                </div>
-                <div id="feedback" class="hidden text-theme-red text-center mt-4 font-bold animate-pulse"></div>
             </div>
+
+            <!-- Controls -->
+            <div class="flex gap-4 mt-12 max-w-md mx-auto">
+                <button onclick="checkAnswer()"
+                    class="flex-[3] bg-theme-blue text-white py-5 rounded-[1.5rem] font-black text-lg hover:shadow-2xl hover:shadow-theme-blue/20 transition-all active:scale-95 group">
+                    VALIDATE ANSWER <span
+                        class="inline-block group-hover:translate-x-1 transition-transform ml-2">→</span>
+                </button>
+                <button onclick="resetCurrentWord()"
+                    class="flex-1 glass border-2 border-theme-blue/10 text-theme-blue rounded-[1.5rem] hover:bg-theme-red hover:text-white hover:border-theme-red transition-all active:scale-95 text-2xl">
+                    ↺
+                </button>
+            </div>
+
+            <div id="feedback" class="h-8 mt-6 text-center font-bold"></div>
         </div>
 
-        <div id="victory-screen" class="hidden text-center">
-            <h1 class="text-7xl text-theme-blue font-['Bangers'] mb-4 tracking-wider">MISSION COMPLETE!</h1>
-            <p class="text-2xl text-theme-blue/60 mb-8">Final Time: <span id="final-time" class="text-theme-red"></span>
-            </p>
+        <div id="victory-screen" class="hidden text-center py-20 animate-bounce-in">
+            <div class="text-9xl mb-8">🏆</div>
+            <h2 class="text-7xl font-black text-theme-blue mb-4 tracking-tighter">LAB MISSION COMPLETE</h2>
+            <p class="text-2xl text-theme-blue/60 mb-12">Total Completion Time: <span id="final-time"
+                    class="text-theme-red font-black"></span></p>
 
-            <div class="flex gap-4 justify-center">
+            <div class="flex gap-6 justify-center">
                 <button onclick="location.reload()"
-                    class="bg-theme-red text-theme-white px-10 py-4 rounded-full font-bold text-xl hover:scale-110 transition-transform shadow-xl">PLAY
-                    AGAIN</button>
+                    class="bg-theme-red text-white px-12 py-5 rounded-full font-black text-xl hover:scale-105 transition-all shadow-xl shadow-theme-red/20">
+                    NEW MISSION
+                </button>
                 <a href="/"
-                    class="bg-theme-white border-2 border-theme-blue text-theme-blue px-10 py-4 rounded-full font-bold text-xl hover:scale-110 transition-transform shadow-xl">EXIT
-                    LAB</a>
+                    class="glass border-2 border-theme-blue text-theme-blue px-12 py-5 rounded-full font-black text-xl hover:scale-105 transition-all">
+                    BACK TO BASE
+                </a>
             </div>
         </div>
+    </main>
 
-    </div>
     <script src="/static/anagram/script.js"></script>
 </body>
 

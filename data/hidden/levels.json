@@ -1,0 +1,48 @@
+[
+    {
+        "image": "/static/hidden/level 2.jpg",
+        "items": [
+            {
+                "riddle": "I am an animal with long neck.",
+                "name": "Giraffe",
+                "top": "5%",
+                "left": "84%",
+                "width": "12%",
+                "height": "17%",
+                "hints": [
+                    "I have spots.",
+                    "I eat leaves."
+                ]
+            },
+            {
+                "riddle": "I am a domestic animal.",
+                "name": "Cat",
+                "top": "20%",
+                "left": "61%",
+                "width": "8%",
+                "height": "10%",
+                "hints": [
+                    "I catch mice.",
+                    "I say meow."
+                ]
+            }
+        ]
+    },
+    {
+        "image": "/static/hidden/level 1.webp",
+        "items": [
+            {
+                "riddle": "I have vast blue body covers most of the Earth.",
+                "name": "Sea",
+                "top": "45%",
+                "left": "50%",
+                "width": "8%",
+                "height": "14%",
+                "hints": [
+                    "It touches every shore.",
+                    "Its waters rise and fall with the moon."
+                ]
+            }
+        ]
+    }
+]

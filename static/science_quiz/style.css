@@ -1,0 +1,343 @@
+:root {
+    --primary: #FFD700; /* Sunny Yellow */
+    --secondary: #FF6B6B; /* Soft Red */
+    --accent: #4ECDC4; /* Fresh Teal */
+    --grass-green: #3AE374; /* Kid-friendly grass green */
+    --cloud-white: #FFFFFF;
+}
+
+body {
+    margin: 0;
+    font-family: 'Nunito', sans-serif;
+    /* Sky Gradient */
+    background: linear-gradient(to bottom, #74b9ff 0%, #a29bfe 100%);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Background Elements Scene */
+.background-elements {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none; /* Let clicks pass through to quiz */
+}
+
+/* Cloud Styling and Animation */
+.cloud {
+    background: var(--cloud-white);
+    border-radius: 50%;
+    position: absolute;
+    animation: drift 20s linear infinite;
+    opacity: 0.9;
+}
+
+.cloud::before, .cloud::after {
+    content: '';
+    background: inherit;
+    border-radius: inherit;
+    position: absolute;
+}
+
+/* Specific cloud variations */
+.cloud-1 { width: 100px; height: 100px; top: 10%; left: -150px; }
+.cloud-1::before { width: 80px; height: 80px; top: 30px; left: -40px; }
+.cloud-1::after { width: 60px; height: 60px; top: 50px; left: 40px; }
+
+.cloud-2 { 
+    width: 80px; height: 80px; 
+    top: 25%; left: -100px; 
+    animation-duration: 30s; 
+    animation-delay: 5s; 
+    transform: scale(0.7); 
+}
+.cloud-2::before { width: 60px; height: 60px; top: 20px; left: -30px; }
+.cloud-2::after { width: 40px; height: 40px; top: 40px; left: 30px; }
+
+@keyframes drift {
+    0% { left: -150px; }
+    100% { left: 110%; }
+}
+
+/* Floating Character styling */
+.character {
+    position: absolute;
+    font-size: 4rem;
+    animation: bounce 4s ease-in-out infinite;
+    pointer-events: auto; /* Let them interact with character */
+    cursor: pointer;
+}
+
+/* Place character near the quiz card */
+.character-rocket {
+    top: 15%;
+    right: 10%;
+    transform: rotate(-15deg);
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translate(0, 0) rotate(-15deg); }
+    50% { transform: translate(-10px, -20px) rotate(0deg); }
+}
+
+/* Ground/Trees area at bottom */
+.ground-scene {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 15vh;
+    background: linear-gradient(to top, var(--grass-green) 70%, transparent 100%);
+    z-index: -1;
+}
+
+.tree {
+    position: absolute;
+    bottom: 5vh;
+    font-size: 3rem;
+    animation: sway 5s ease-in-out infinite alternate;
+    transform-origin: bottom center;
+}
+
+.tree-1 { left: 10%; animation-delay: 0.5s; }
+.tree-2 { right: 15%; animation-delay: 1s; }
+
+@keyframes sway {
+    0% { transform: rotate(-3deg); }
+    100% { transform: rotate(3deg); }
+}
+
+/* Quiz Card Styling */
+.quiz-card {
+    background: rgba(255, 255, 255, 0.95); /* Slight transparency */
+    padding: 30px;
+    border-radius: 30px;
+    box-shadow: 0 20px 0px rgba(0,0,0,0.15); /* Slightly bigger shadow */
+    width: 90%;
+    max-width: 450px;
+    text-align: center;
+    border: 8px solid var(--primary);
+    position: relative;
+    z-index: 10; /* Keep quiz on top */
+    /* Add bouncy animation when card loads */
+    animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes popIn {
+    0% { transform: scale(0.5); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+h1 {
+    font-family: 'Fredoka One', cursive;
+    color: #333;
+    font-size: 2rem;
+    margin-bottom: 25px;
+    /* Add subtle text shadow for pop */
+    text-shadow: 1px 1px 0px white, 2px 2px 0px var(--primary);
+}
+
+/* 3D Button Style for Kids */
+.btn {
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 18px 20px; /* Slightly bigger padding */
+    margin: 12px 0;
+    border-radius: 20px;
+    font-size: 1.3rem; /* Bigger font */
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 8px 0 #369a93; /* Stronger 3D effect */
+    transition: all 0.1s ease;
+    width: 100%;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.2);
+    box-sizing: border-box; /* Important for padding */
+}
+
+.btn:active {
+    transform: translateY(6px);
+    box-shadow: 0 2px 0 #369a93;
+}
+
+.btn:hover:not(:disabled) {
+    filter: brightness(1.1);
+    animation: jiggle 0.5s ease infinite alternate; /* Fun jiggle on hover */
+}
+
+@keyframes jiggle {
+    0% { transform: rotate(-1deg); }
+    100% { transform: rotate(1deg); }
+}
+
+/* The Progress Bar */
+.progress-container {
+    background: #e1f5fe; /* Light blue background */
+    height: 20px; /* Thicker bar */
+    border-radius: 10px;
+    margin-bottom: 25px;
+    overflow: hidden;
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
+}
+
+#progress-bar {
+    background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%); /* Cool gradient */
+    height: 100%;
+    width: 0%;
+    transition: width 0.5s ease-out; /* Smooth growth */
+    border-radius: 10px;
+}
+
+/* Fun Animations for Mascot */
+.mascot {
+    font-size: 4rem; /* Larger mascot */
+    animation: float 3s ease-in-out infinite;
+    margin-bottom: 10px;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
+
+/* Final Result Styling */
+.result-mascot {
+    font-size: 5rem;
+    animation: dance 1s ease-in-out infinite alternate;
+}
+
+@keyframes dance {
+    0% { transform: scale(1) rotate(-5deg); }
+    100% { transform: scale(1.1) rotate(5deg); }
+}
+
+.retry-btn {
+    composes: btn; /* Reuse primary button style */
+    background: #ffb142; /* Bright orange for retry */
+    box-shadow: 0 8px 0 #cc8e35;
+    font-family: 'Fredoka One', cursive;
+    margin-top: 20px;
+}
+
+.retry-btn:hover {
+    background: #ffa11c;
+}
+
+#next-btn {
+    background: var(--secondary);
+    box-shadow: 0 8px 0 #c0392b;
+    border: none;
+    color: white;
+    padding: 12px 35px;
+    border-radius: 50px;
+    font-family: 'Fredoka One';
+    font-size: 1.5rem;
+    margin-top: 20px;
+}
+
+.hidden { display: none; }
+/* Admin Layout */
+.admin-body {
+    background: #f4f7f6;
+    display: block; /* Override center display */
+    padding: 0;
+    margin: 0;
+}
+
+.dashboard {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 250px;
+    background: #2d3436;
+    color: white;
+    padding: 20px;
+}
+
+.sidebar h2 { font-family: 'Fredoka One'; font-size: 1.5rem; margin-bottom: 30px; }
+
+.nav-item {
+    display: block;
+    color: #dfe6e9;
+    text-decoration: none;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.nav-item.active { background: #0984e3; color: white; }
+
+.content { flex: 1; padding: 40px; }
+
+/* Form Design */
+.admin-card {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    margin-bottom: 30px;
+}
+
+.grid-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.full-width { grid-column: span 2; }
+
+.grid-form label { display: block; font-weight: bold; margin-bottom: 5px; color: #636e72; }
+
+.grid-form input {
+    width: 90%;
+    padding: 12px;
+    border: 2px solid #eee;
+    border-radius: 8px;
+    outline: none;
+}
+
+.grid-form input:focus { border-color: #0984e3; }
+
+.save-btn {
+    grid-column: span 2;
+    background: #00b894;
+    color: white;
+    border: none;
+    padding: 15px;
+    font-weight: bold;
+    border-radius: 10px;
+}
+
+/* Question Cards */
+.q-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+
+.q-card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-left: 5px solid #0984e3;
+}
+
+.q-tag { font-size: 0.8rem; color: #b2bec3; font-weight: bold; }
+
+.del-icon {
+    background: #fab1a0;
+    color: #d63031;
+    border: none;
+    padding: 8px;
+    border-radius: 5px;
+    width: auto;
+    cursor: pointer;
+}

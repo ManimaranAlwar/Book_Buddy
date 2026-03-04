@@ -2,7 +2,6 @@ let game = { words: [], idx: 0, scrambled: [], selected: [], time: 0, timer: nul
 
 window.onload = async () => {
     GamesSDK.init(); // Init SDK
-    GamesSDK.init(); // Init SDK
 
     try {
         const res = await fetch('/api/daily/anagram');
@@ -12,9 +11,11 @@ window.onload = async () => {
             initGame();
         } else {
             console.error("No questions received from server.");
+            document.getElementById('hint').textContent = "Error loading daily challenge.";
         }
     } catch (err) {
         console.error("Failed to load game data:", err);
+        document.getElementById('hint').textContent = "Error loading daily challenge.";
     }
 };
 
@@ -25,13 +26,21 @@ function initGame() {
 
     game.timer = setInterval(() => {
         game.time++;
-        document.getElementById('timer').textContent = game.time + 's';
+        const seconds = game.time % 60;
+        const minutes = Math.floor(game.time / 60);
+        document.getElementById('timer').textContent = `${minutes}:${seconds.toString().padStart(2, '0')}s`;
     }, 1000);
 }
 
 function loadWord() {
+    if (game.idx >= game.words.length) {
+        endGame();
+        return;
+    }
     const current = game.words[game.idx];
     document.getElementById('hint').textContent = current.hint;
+    document.getElementById('hint').classList.add('animate-bounce-in');
+    setTimeout(() => document.getElementById('hint').classList.remove('animate-bounce-in'), 500);
 
     const originalWord = current.word.toUpperCase();
     game.scrambled = originalWord.split('').sort(() => 0.5 - Math.random());
@@ -45,12 +54,21 @@ function render() {
     const aArea = document.getElementById('answer-area');
 
     sArea.innerHTML = game.scrambled.map((letter, i) =>
-        `<div class="tile cursor-pointer bg-white text-orange-800 font-black text-4xl p-4 rounded-xl shadow-lg border-b-4 border-orange-600 hover:scale-110 active:scale-95 transition" onclick="moveToAnswer(${i})">${letter}</div>`
+        `<div class="tile w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center bg-white text-theme-blue font-black text-3xl sm:text-4xl rounded-2xl shadow-lg border-2 border-theme-blue/10 animate-bounce-in" onclick="moveToAnswer(${i})">${letter}</div>`
     ).join('');
 
     aArea.innerHTML = game.selected.map((letter, i) =>
-        `<div class="tile tile-ans cursor-pointer bg-yellow-100 text-orange-900 font-black text-4xl p-4 rounded-xl shadow-inner border-2 border-dashed border-orange-300 hover:bg-red-100 transition" onclick="moveToScrambled(${i})">${letter}</div>`
+        `<div class="tile w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center bg-theme-blue text-white font-black text-3xl sm:text-4xl rounded-2xl shadow-xl border-2 border-theme-blue animate-bounce-in" onclick="moveToScrambled(${i})">${letter}</div>`
     ).join('');
+
+    // Fill remaining slots in answer area
+    const current = game.words[game.idx];
+    if (current) {
+        const remaining = current.word.length - game.selected.length;
+        for (let i = 0; i < remaining; i++) {
+            aArea.innerHTML += `<div class="w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center bg-theme-blue/5 rounded-2xl border-2 border-dashed border-theme-blue/10"></div>`;
+        }
+    }
 
     document.getElementById('counter').textContent = `${game.idx + 1}/${game.words.length}`;
 }
@@ -74,29 +92,39 @@ window.checkAnswer = function () {
     const correctWord = game.words[game.idx].word.toUpperCase();
 
     if (userGuess === correctWord) {
+        showFeedback("PERFECT!", "text-green-500");
         game.idx++;
-        if (game.idx >= game.words.length) {
-            endGame();
-        } else {
-            loadWord();
-        }
+        setTimeout(() => {
+            if (game.idx >= game.words.length) {
+                endGame();
+            } else {
+                loadWord();
+            }
+        }, 800);
     } else {
-        showError();
+        showFeedback("TRY AGAIN", "text-theme-red");
+        // Optional: Shake animation here
     }
 };
 
-function showError() {
+function showFeedback(text, colorClass) {
     const feedback = document.getElementById('feedback');
-    feedback.textContent = "Incorrect combination!";
-    feedback.classList.remove('hidden');
-    setTimeout(() => feedback.classList.add('hidden'), 1500);
+    feedback.textContent = text;
+    feedback.className = `h-8 mt-6 text-center font-black tracking-widest ${colorClass} animate-bounce-in`;
+    setTimeout(() => {
+        feedback.textContent = "";
+        feedback.className = "h-8 mt-6 text-center font-bold";
+    }, 1500);
 }
 
 function endGame() {
     clearInterval(game.timer);
     document.getElementById('game-container').classList.add('hidden');
     document.getElementById('victory-screen').classList.remove('hidden');
-    document.getElementById('final-time').textContent = game.time + 's';
+
+    const minutes = Math.floor(game.time / 60);
+    const seconds = game.time % 60;
+    document.getElementById('final-time').textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
 
     // REPORT SCORE TO SDK
     GamesSDK.reportScore('anagram');

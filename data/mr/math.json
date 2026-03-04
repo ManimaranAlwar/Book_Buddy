@@ -1,0 +1,6 @@
+{
+    "spawnRate": 320,
+    "currentSpeed": 0.0022,
+    "speedIncrement": 0.0001,
+    "mathRange": 5
+}

@@ -1,0 +1,151 @@
+:root { 
+    --primary: #FFD700; 
+    --accent: #4ECDC4; 
+    --cauldron-color: #2d3436; 
+}
+
+/* 1. Full Viewport Setup */
+html, body { 
+    margin: 0; 
+    padding: 0;
+    height: 100vh; 
+    width: 100vw;
+    font-family: 'Nunito', sans-serif; 
+    background: linear-gradient(#74b9ff, #a29bfe); 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    overflow: hidden; /* Prevents the whole browser from scrolling */
+}
+
+/* 2. Background Elements */
+.sky-bg { position: fixed; width: 100%; height: 100%; z-index: -1; }
+.cloud { background: white; border-radius: 50px; position: absolute; width: 100px; height: 40px; animation: drift 20s infinite linear; opacity: 0.8; }
+.cloud-1 { top: 10%; left: -100px; }
+.cloud-2 { top: 25%; right: -150px; animation-delay: 5s; }
+@keyframes drift { from { left: -150px; } to { left: 110%; } }
+
+/* 3. The Main Game Card (Full Screen Responsive) */
+.game-card { 
+    background: rgba(255, 255, 255, 0.95); 
+    width: 95vw; 
+    max-width: 900px; 
+    height: 92vh; 
+    padding: 20px; 
+    border-radius: 40px; 
+    border: 8px solid var(--primary); 
+    display: flex;
+    flex-direction: column; /* Stacks elements top to bottom */
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+    box-sizing: border-box;
+    position: relative;
+}
+
+/* 4. Cauldron Area */
+.mascot { font-size: 2rem; margin-bottom: 5px; }
+h1 { margin: 0 0 15px 0; font-family: 'Fredoka One', cursive; color: var(--cauldron-color); }
+
+.cauldron-container { position: relative; margin-bottom: 20px; flex-shrink: 0; }
+.cauldron { 
+    background: var(--cauldron-color); 
+    height: 130px; 
+    width: 320px;
+    margin: 0 auto;
+    border-radius: 40% 40% 50% 50%;
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    gap: 15px;
+    box-shadow: inset 0 10px 20px rgba(0,0,0,0.5); 
+    border-bottom: 8px solid #111;
+    transition: transform 0.2s;
+}
+
+.slot { 
+    font-size: 2.5rem; 
+    width: 75px; 
+    height: 75px; 
+    background: rgba(255,255,255,0.1); 
+    border: 3px dashed rgba(255,255,255,0.5); 
+    border-radius: 15px; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center;
+    color: white;
+}
+
+/* 5. Inventory Section (Fixes the tall/thin boxes) */
+.inventory-section { 
+    flex-grow: 1;           /* Fills the rest of the card */
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;       /* Contains the scrolling grid */
+    margin-top: 10px;
+}
+
+.inventory-grid { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fill, minmax(85px, 1fr)); 
+    gap: 15px; 
+    background: #f1f2f6; 
+    padding: 20px; 
+    border-radius: 25px; 
+    overflow-y: auto;       /* Only this part scrolls */
+    flex-grow: 1;
+    align-content: start;   /* CRITICAL: Stops boxes from stretching vertically */
+}
+
+.item { 
+    font-size: 2.2rem; 
+    cursor: pointer; 
+    background: white; 
+    border-radius: 18px; 
+    box-shadow: 0 5px 0 #ccc; 
+    transition: 0.1s; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center;
+    aspect-ratio: 1 / 1;   /* CRITICAL: Keeps boxes square */
+}
+
+.item:active { transform: translateY(3px); box-shadow: 0 2px 0 #ccc; }
+.item:hover { background: #fafafa; transform: scale(1.05); }
+
+/* 6. Animations & UI Feedback */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-10px); }
+    75% { transform: translateX(10px); }
+}
+.shake { animation: shake 0.4s ease-in-out; border-bottom-color: #ff7675; }
+
+/* 7. Overlay / Discovery Box */
+.overlay { 
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+    background: rgba(0,0,0,0.8); 
+    display: flex; justify-content: center; align-items: center; 
+    z-index: 100; 
+}
+.discovery-card { 
+    background: white; padding: 40px; border-radius: 35px; 
+    text-align: center; border: 8px solid var(--accent); 
+    max-width: 400px; width: 90%;
+}
+.big-emoji { font-size: 6rem; margin: 20px 0; }
+.hidden { display: none; }
+
+/* 8. Footer */
+.footer-actions { margin-top: 15px; flex-shrink: 0; }
+.clear-btn { 
+    background: var(--accent); 
+    color: white; 
+    border: none; 
+    padding: 12px 25px; 
+    border-radius: 20px; 
+    cursor: pointer; 
+    font-weight: 700;
+    font-size: 1rem;
+    box-shadow: 0 4px 0 #3bb3aa;
+}
+.clear-btn:active { transform: translateY(2px); box-shadow: 0 2px 0 #3bb3aa; }

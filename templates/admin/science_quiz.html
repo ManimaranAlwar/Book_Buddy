@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Science Quest Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
+</head>
+
+<body class="bg-[#F7F7FD] font-['Outfit'] text-[#0F2C67] p-8">
+    <div class="max-w-4xl mx-auto">
+        <div class="flex justify-between items-center mb-10">
+            <h1 class="text-4xl font-black">SCIENCE QUEST : BANK</h1>
+            <a href="/admin"
+                class="bg-white/50 border border-[#0F2C67]/10 px-6 py-2 rounded-xl font-bold hover:bg-[#0F2C67] hover:text-white transition">Back</a>
+        </div>
+
+        <div class="bg-white p-8 rounded-[2rem] shadow-xl border border-[#0F2C67]/5 mb-10">
+            <h2 class="text-xl font-black mb-6 uppercase tracking-widest text-[#7D1424]">Add New Challenge</h2>
+            <form action="/admin/science-quiz/add" method="POST" class="space-y-4">
+                <input type="text" name="question" placeholder="Question Text"
+                    class="w-full p-4 rounded-xl border-2 border-[#0F2C67]/5 focus:border-[#0F2C67] outline-none font-bold"
+                    required>
+                <div class="grid grid-cols-2 gap-4">
+                    <input type="text" name="opt1" placeholder="Option 1"
+                        class="p-4 rounded-xl border-2 border-[#0F2C67]/5 outline-none" required>
+                    <input type="text" name="opt2" placeholder="Option 2"
+                        class="p-4 rounded-xl border-2 border-[#0F2C67]/5 outline-none" required>
+                    <input type="text" name="opt3" placeholder="Option 3"
+                        class="p-4 rounded-xl border-2 border-[#0F2C67]/5 outline-none" required>
+                    <input type="text" name="opt4" placeholder="Option 4"
+                        class="p-4 rounded-xl border-2 border-[#0F2C67]/5 outline-none" required>
+                </div>
+                <input type="text" name="correct" placeholder="Correct Answer (Must match an option)"
+                    class="w-full p-4 rounded-xl border-2 border-[#7D1424]/20 focus:border-[#7D1424] outline-none font-black"
+                    required>
+                <button type="submit"
+                    class="w-full bg-[#0F2C67] text-white py-4 rounded-xl font-black text-lg hover:shadow-2xl transition">ENCODE
+                    DATA 🧬</button>
+            </form>
+        </div>
+
+        <div class="grid gap-4">
+            {% for q in questions %}
+            <div class="bg-white/80 p-6 rounded-2xl flex justify-between items-center border border-[#0F2C67]/5">
+                <div>
+                    <p class="font-black text-lg">{{ q.question }}</p>
+                    <p class="text-xs font-bold opacity-40 uppercase tracking-widest mt-1">Answer: {{ q.answer }}</p>
+                </div>
+                <form action="/admin/science-quiz/delete/{{ loop.index0 }}" method="POST">
+                    <button type="submit" class="text-red-500 font-bold hover:underline">DELETE</button>
+                </form>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+
+</html>

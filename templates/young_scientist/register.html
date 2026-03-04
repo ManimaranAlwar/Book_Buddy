@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REGISTER | CYBER ALCHEMY</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        theme: {
+                            blue: '#0F2C67',
+                            red: '#7D1424',
+                            white: '#F7F7FD',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: #F7F7FD;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .glass {
+            background: rgba(15, 44, 103, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(15, 44, 103, 0.1);
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex items-center justify-center p-6">
+    <div class="fixed top-[-20%] left-[-10%] w-[50%] h-[50%] bg-theme-blue/5 rounded-full blur-[120px] -z-10"></div>
+
+    <div class="glass w-full max-w-sm rounded-[3rem] p-12 text-center relative overflow-hidden shadow-2xl">
+        <div class="absolute top-0 left-0 w-full h-2 bg-theme-blue"></div>
+
+        <div class="text-6xl mb-6">📝</div>
+        <h1 class="text-3xl font-black text-theme-blue mb-2 tracking-tighter uppercase">Alchemist Enrollment</h1>
+        <p class="text-theme-blue/40 font-bold text-xs uppercase tracking-[0.2em] mb-10 text-center">New Practitioner
+            Registration</p>
+
+        <form method="POST" class="space-y-4">
+            <input type="text" name="username" placeholder="Choose Wizard Name" required
+                class="w-full glass bg-white/50 px-6 py-4 rounded-2xl outline-none border-2 border-transparent focus:border-theme-blue transition-all font-bold">
+            <input type="password" name="password" placeholder="Create Secret Spell" required
+                class="w-full glass bg-white/50 px-6 py-4 rounded-2xl outline-none border-2 border-transparent focus:border-theme-blue transition-all font-bold">
+            <button type="submit"
+                class="w-full bg-theme-blue text-white py-5 rounded-2xl font-black text-lg hover:shadow-xl hover:shadow-theme-blue/20 transition-all active:scale-95">
+                REGISTER ALCHEMIST ✨
+            </button>
+        </form>
+
+        <div class="mt-8 pt-8 border-t border-theme-blue/5">
+            <p class="text-sm font-bold text-theme-blue/40">
+                ALREADY ENROLLED?
+                <a href="/young-scientist/login" class="text-theme-blue hover:underline underline-offset-4 ml-1">LOG IN
+                    HERE</a>
+            </p>
+        </div>
+    </div>
+</body>
+
+</html>

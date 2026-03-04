@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alchemy Control Center - Optimized</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --accent: #4ECDC4;
+            --text: #f8fafc;
+            --danger: #ff7675;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Nunito', sans-serif;
+            background: radial-gradient(circle at top right, #1e293b, #0f172a);
+            color: var(--text);
+            height: 100vh;
+            display: flex;
+            overflow: hidden;
+        }
+
+        /* Sidebar Nav */
+        .sidebar {
+            width: 80px;
+            background: rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 20px;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-icon {
+            text-decoration: none;
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            transition: transform 0.2s;
+        }
+
+        .nav-icon:hover {
+            transform: scale(1.2);
+        }
+
+        /* Main Dashboard */
+        .dashboard {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 450px 1fr;
+            gap: 20px;
+            padding: 30px;
+            box-sizing: border-box;
+        }
+
+        .panel {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        }
+
+        h2,
+        h3 {
+            margin-top: 0;
+            font-family: 'Fredoka One', cursive;
+            color: var(--accent);
+        }
+
+        label {
+            display: block;
+            margin: 15px 0 5px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            color: #94a3b8;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 12px;
+            color: white;
+            outline: none;
+            box-sizing: border-box;
+        }
+
+        .emoji-input {
+            font-size: 1.8rem !important;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .emoji-input:hover {
+            background: rgba(78, 205, 196, 0.1);
+        }
+
+        button.save-btn {
+            margin-top: 20px;
+            background: var(--accent);
+            color: #0f172a;
+            border: none;
+            padding: 15px;
+            border-radius: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        button.save-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 20px rgba(78, 205, 196, 0.4);
+        }
+
+        .scroll-list {
+            overflow-y: auto;
+            flex: 1;
+            padding-right: 10px;
+        }
+
+        .recipe-card {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 16px;
+            padding: 15px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .arrow {
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        .del-btn {
+            background: rgba(255, 118, 117, 0.1);
+            border: 1px solid var(--danger);
+            color: var(--danger);
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .del-btn:hover {
+            background: var(--danger);
+            color: white;
+        }
+
+        /* GIANT EMOJI PICKER FIXED */
+        #emoji-keyboard {
+            background: #1e293b;
+            border: 2px solid var(--accent);
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.6);
+            display: none;
+            position: absolute;
+            padding: 15px;
+            border-radius: 18px;
+            z-index: 9999;
+            width: 380px;
+            overflow: hidden;
+        }
+
+        .emoji-grid {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 5px;
+            font-size: 1.4rem;
+            max-height: 350px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding-right: 5px;
+        }
+
+        .emoji-grid span {
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 8px;
+            border-radius: 8px;
+            transition: 0.1s;
+            min-height: 40px;
+        }
+
+        .emoji-grid span:hover {
+            background: var(--accent);
+            color: #0f172a;
+            transform: scale(1.15);
+        }
+
+        .category-title {
+            grid-column: span 10;
+            font-size: 0.75rem;
+            font-weight: bold;
+            color: var(--accent);
+            padding: 15px 0 5px 5px;
+            border-bottom: 1px solid rgba(78, 205, 196, 0.2);
+            position: sticky;
+            top: 0;
+            background: #1e293b;
+            z-index: 10;
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="sidebar">
+        <a href="/" class="nav-icon">🧪</a>
+        <a href="/young-scientist/admin" class="nav-icon">⚙️</a>
+    </div>
+
+    <div class="dashboard">
+        <div class="panel">
+            <h2>RECIPE CREATOR</h2>
+            <form action="/young-scientist/api/add" method="POST">
+                <div style="display: flex; gap: 10px;">
+                    <div style="flex: 1;">
+                        <label>ITEM 1</label>
+                        <input type="text" name="item1" class="emoji-target emoji-input" placeholder="?" readonly
+                            required>
+                    </div>
+                    <div style="align-self: flex-end; padding-bottom: 15px; font-weight: bold;">+</div>
+                    <div style="flex: 1;">
+                        <label>ITEM 2</label>
+                        <input type="text" name="item2" class="emoji-target emoji-input" placeholder="?" readonly
+                            required>
+                    </div>
+                </div>
+
+                <label>RESULT DISCOVERY</label>
+                <input type="text" name="result" class="emoji-target emoji-input" style="border-color: var(--accent);"
+                    placeholder="?" readonly required>
+
+                <label>SCIENCE EXPLANATION</label>
+                <textarea name="explanation" placeholder="Explain the science..." required></textarea>
+
+                <button type="submit" class="save-btn">ENCODE RECIPE ✨</button>
+            </form>
+        </div>
+
+        <div class="panel">
+            <h3>DISCOVERY LOGS</h3>
+            <div class="scroll-list">
+                {% for i, r in recipes %}
+                <div class="recipe-card">
+                    <div style="display: flex; align-items: center; gap: 10px; font-size: 1.2rem;">
+                        <span>{{ r.item1 }}</span> + <span>{{ r.item2 }}</span>
+                        <span class="arrow">➔</span>
+                        <span style="background: rgba(78, 205, 196, 0.2); padding: 5px 10px; border-radius: 8px;">{{
+                            r.result }}</span>
+                    </div>
+                    <form action="/young-scientist/api/delete/{{ i }}" method="POST">
+                        <button type="submit" class="del-btn">DELETE</button>
+                    </form>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div id="emoji-keyboard">
+        <div class="emoji-grid" id="matrix"></div>
+    </div>
+
+    <script>
+        const emojiCategories = {
+            "Chemistry & Elements": "🔥💧💨🌱☀️☁️🌧️❄️⚡🌪️🌊🌋🌫️🌈☄️🌡️🧪🧬🔬🔭⚗️📡🛰️🚀🛸🌌🌎🪐🌑⭐✨🧲🔋🔌💡⚙️💎⚖️🧱⛓️🪨🪵",
+            "Smileys & Emotions": "😀😃😄😁😆😅🤣😂🙂🙃😉😊😇🥰😍🤩😘😗😚😋😛😜🤪🤨🧐🤓😎🥸🥳😏😒😞😔😟😕🙁☹️😣😖😫😩🥺😢😭😤😠😡🤬🤯😳🥵🥶😱😨😰😥😓🤔🫣🤭🤫🫠",
+            "Animals & Nature": "🐶🐱🐭🐹🐰🦊🐻🐼🐻‍❄️🐨🐯🦁🐮🐷🐽🐸🐵🙈🙉🙊🐒🐒🦍🦧🦓🦄🐝🐛🦋🐌🐜🐝🪲🪳🐿️🦥🦦🦨🦘🦡🐾🦅🦉🦜🕊️🦆🦢🦉🦩🦚🦜🐢🐍🦎🦖🦕🐳🐬🐟🐠🐡🦈🐙🐚🦀🦞🦐🦑",
+            "Food & Drink": "🍏🍎🍐🍊🍋🍌🍉🍇🍓🫐🍈🍒🍑🥭🍍🥥🥝🍅🍆🥑🥦🥬🥒🌶️🫑🌽🥕🫒🧄🧅🍄🥜🫘🥐🍞🥖🫓🥨🥯🥞🧇🧀🍖🍗🥩🥓🍔🍟🍕🌭🥪🌮🌯🫔🥙🧆🥘🍲🍳🥚🍿🍱🍙🍚🍛🍜🍝🍜🍣🍢🥧🍦🍧🍨🍩🍪🎂🍰🧁🍫🍿🍩🥤🧋🧃🍵☕🍶🍹🍺🍻🥂🍷🥃🥃🧊",
+            "Activities & Objects": "⚽️🏀🏈⚾️🎾🏐🏉🎱🏓🏸🏒🏑🥍🏹🎣🩰🎨🎬🎤🎧🎼🎹🥁🪗🎸🎻🎲🎯🎳🎮🎰🚗🚕🚙🚌🚎🏎️🚓🚑🚒🚐🛻🚚🚛🚜🚲🛴🛵🏍️🛺✈️🛸🚁🛶⛵️🚤🛳️⛴️🚢⚓️🛰️🚀🛸🚧⌛️⏳️⌚️⏰️⏱️⏲️🕰️🌡️☀️🌤️⛅️🌥️☁️🌦️🌧️⛈️🌩️🌨️❄️☃️⛄️🌬️💨🌪️🌫️🌊💧⚡️🔥",
+            "Magic & Symbols": "🔮🪄📜🗝️🛡️⚔️🏹💎💰🕯️⚱️⌛️🏺🧿⚖️🪬⌛️⏳️🔋🔌💻🖥️🖨️⌨️🖱️💿📀🧮🎥🎞️📞☎️📟📠📻📺📸📹📼🔍🔎🕯️💡🔦🏮📔📕📖📗📘📙📚📓📒📑❤️🧡💛💚💙💜🖤🤍🤎💔❣️💕💞💖💗💓🫂",
+            "Flags & Places": "🏁🚩🎌🏴🏳️🏳️‍🌈🏳️‍⚧️🏴‍☠️🏢🏣🏤🏥🏦🏨🏪🏫🏬🏭🏰🏯💒🗼🗽🏠🏡🏘️🛖⛲️⛺️⛰️🏔️🗻🌋🏜️🏖️🏝️🛤️🛣️"
+        };
+
+        const matrix = document.getElementById('matrix');
+        const keyboard = document.getElementById('emoji-keyboard');
+        const inputs = document.querySelectorAll('.emoji-target');
+        let currentInput = null;
+
+        function loadEmojis() {
+            matrix.innerHTML = '';
+            const segmenter = new Intl.Segmenter('en', { granularity: 'grapheme' });
+
+            for (const [cat, emojis] of Object.entries(emojiCategories)) {
+                const title = document.createElement('div');
+                title.className = 'category-title';
+                title.innerText = cat;
+                matrix.appendChild(title);
+
+                const segments = segmenter.segment(emojis);
+                for (const { segment } of segments) {
+                    const span = document.createElement('span');
+                    span.innerText = segment;
+                    matrix.appendChild(span);
+                }
+            }
+        }
+
+        loadEmojis();
+
+        inputs.forEach(input => {
+            input.addEventListener('click', (e) => {
+                currentInput = e.target;
+                keyboard.style.display = 'block';
+
+                const rect = e.target.getBoundingClientRect();
+                const pickerHeight = 400;
+
+                // Flip logic: if keyboard hits bottom of screen, show it above input
+                if (window.innerHeight - rect.bottom < pickerHeight) {
+                    keyboard.style.top = (window.scrollY + rect.top - pickerHeight - 10) + 'px';
+                } else {
+                    keyboard.style.top = (window.scrollY + rect.bottom + 5) + 'px';
+                }
+                keyboard.style.left = Math.min(rect.left, window.innerWidth - 400) + 'px';
+            });
+        });
+
+        keyboard.addEventListener('click', (e) => {
+            if (e.target.tagName === 'SPAN' && currentInput) {
+                currentInput.value = e.target.innerText;
+                keyboard.style.display = 'none';
+            }
+        });
+
+        document.addEventListener('mousedown', (e) => {
+            if (!keyboard.contains(e.target) && !e.target.classList.contains('emoji-target')) {
+                keyboard.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+
+</html>

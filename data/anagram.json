@@ -12,10 +12,6 @@
         "hint": "The force that pulls objects toward Earth"
     },
     {
-        "word": "NEUTRON",
-        "hint": "Subatomic particle with no electric charge"
-    },
-    {
         "word": "CIRCUIT",
         "hint": "A closed path for electricity"
     },
@@ -74,5 +70,9 @@
     {
         "word": "ATMOSPHERE",
         "hint": "Layer of gases surrounding a planet"
+    },
+    {
+        "word": "PLANT",
+        "hint": "I need water , sunlight , soil to leave"
     }
 ]

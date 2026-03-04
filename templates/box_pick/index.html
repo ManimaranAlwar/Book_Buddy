@@ -3,7 +3,8 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Daily Box Pick</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BOX PICK | BOOK-BUDDY</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -15,86 +16,177 @@
                             blue: '#0F2C67',
                             white: '#F7F7FD',
                         }
+                    },
+                    fontFamily: {
+                        outfit: ['Outfit', 'sans-serif'],
                     }
                 }
             }
         }
     </script>
-    <script src="/static/js/games-sdk.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/static/css/global.css">
-    <link rel="stylesheet" href="/static/box_pick/style.css">
+    <script src="/static/js/games-sdk.js"></script>
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: #F7F7FD;
+            color: #0F2C67;
+            overflow-x: hidden;
+        }
+
+        .glass {
+            background: rgba(15, 44, 103, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(15, 44, 103, 0.1);
+        }
+
+        .word-chip {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: grab;
+        }
+
+        .word-chip:active {
+            cursor: grabbing;
+        }
+
+        .word-chip:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 10px 20px rgba(15, 44, 103, 0.1);
+        }
+
+        .trash-zone {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .trash-zone.drag-over {
+            transform: scale(1.1);
+            background: rgba(125, 20, 36, 0.1);
+            border-color: #7D1424;
+        }
+
+        @keyframes bounce-in {
+            0% {
+                transform: scale(0.3);
+                opacity: 0;
+            }
+
+            50% {
+                transform: scale(1.05);
+                opacity: 1;
+            }
+
+            70% {
+                transform: scale(0.9);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .animate-bounce-in {
+            animation: bounce-in 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        #removed-section {
+            scrollbar-width: thin;
+            scrollbar-color: rgba(15, 44, 103, 0.2) transparent;
+        }
+    </style>
 </head>
 
-<body class="p-6">
-    <a href="/"
-        class="fixed top-4 left-4 bg-theme-blue/20 hover:bg-theme-blue/40 text-theme-blue px-4 py-2 rounded-full font-bold backdrop-blur">←
-        Hub</a>
+<body class="min-h-screen relative p-6">
+    <!-- Animated background elements -->
+    <div class="fixed top-[-10%] left-[-10%] w-[40%] h-[40%] bg-theme-blue/5 rounded-full blur-[100px] z-0"></div>
+    <div class="fixed bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-theme-red/5 rounded-full blur-[100px] z-0"></div>
 
-    <div class="max-w-4xl mx-auto text-center mt-12">
-        <h1 class="text-5xl font-black text-theme-blue drop-shadow-lg mb-4">📦 Box Pick Challenge</h1>
+    <nav class="relative z-10 max-w-6xl mx-auto flex justify-between items-center mb-12">
+        <a href="/"
+            class="glass px-6 py-3 rounded-2xl flex items-center gap-2 font-bold hover:bg-theme-blue hover:text-white transition-all group">
+            <span class="group-hover:-translate-x-1 transition-transform">←</span> EXIT MISSION
+        </a>
+        <div class="glass px-8 py-3 rounded-2xl flex items-center gap-4">
+            <span class="text-xs font-black uppercase tracking-widest text-theme-blue/40">Current Streak</span>
+            <span class="text-2xl font-black text-theme-red">🔥 <span id="current-streak">0</span></span>
+        </div>
+    </nav>
 
-        <div class="bg-theme-blue/5 backdrop-blur-md rounded-3xl p-8 shadow-2xl border border-theme-blue/20">
-            <!-- Streak Header -->
+    <main class="relative z-10 max-w-5xl mx-auto">
+        <div class="text-center mb-12">
             <div
-                class="flex justify-between items-center mb-8 bg-theme-white p-4 rounded-xl border border-theme-blue/10">
-                <div class="text-theme-blue">
-                    <span class="text-sm opacity-70">CURRENT STREAK</span>
-                    <div class="text-3xl font-bold">🔥 <span id="current-streak">0</span></div>
-                </div>
-                <div class="text-theme-blue text-right">
-                    <span class="text-sm opacity-70">DAILY PUZZLE</span>
-                    <div class="text-2xl font-bold text-theme-red">Active</div>
-                </div>
-            </div>
+                class="inline-block glass px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-[0.3em] text-theme-red mb-4">
+                Daily Puzzle</div>
+            <h1 class="text-6xl font-black tracking-tighter text-theme-blue mb-4">BOX PICK挑战</h1>
+        </div>
 
-            <!-- Riddle -->
-            <div class="bg-theme-white rounded-2xl p-6 mb-8 shadow-lg transform -rotate-1 border border-theme-blue/10">
-                <div class="text-6xl mb-2" id="riddle-emoji">❓</div>
-                <h2 class="text-theme-blue/60 uppercase font-bold text-sm tracking-widest">Today's Riddle</h2>
-                <p id="riddle-text" class="text-2xl font-bold text-theme-blue mt-2">Loading Puzzle...</p>
-            </div>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+            <!-- Left Side: Riddle & Box -->
+            <div class="lg:col-span-2 space-y-8">
+                <div class="glass rounded-[2.5rem] p-10 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 p-8 text-8xl opacity-10" id="riddle-emoji-bg">❓</div>
+                    <div class="relative z-10">
+                        <div class="flex items-center gap-4 mb-4">
+                            <span class="text-4xl" id="riddle-emoji">❓</span>
+                            <span class="text-sm font-black uppercase tracking-widest text-theme-blue/40">The Mission
+                                Riddle</span>
+                        </div>
+                        <p id="riddle-text" class="text-3xl font-black text-theme-blue leading-tight">Loading puzzle
+                            details...</p>
+                    </div>
+                </div>
 
-            <!-- Game Area -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <!-- Word Box -->
-                <div class="bg-theme-white rounded-2xl p-6 min-h-[300px] border-4 border-dashed border-theme-blue/20">
-                    <h3 class="text-theme-blue font-bold mb-4 uppercase text-xs">Keep the Correct Words</h3>
-                    <div id="words-container" class="flex flex-wrap gap-3 justify-center">
+                <div class="glass rounded-[2.5rem] p-10 border-2 border-dashed border-theme-blue/10 min-h-[400px]">
+                    <div class="flex justify-between items-center mb-8">
+                        <h3 class="font-black uppercase tracking-widest text-xs text-theme-blue/40">Filtered Word
+                            Collection</h3>
+                        <span class="text-[10px] font-bold text-theme-blue/20 italic">Drag wrong items to the bin</span>
+                    </div>
+                    <div id="words-container" class="flex flex-wrap gap-4 justify-center">
                         <!-- Words injected here -->
                     </div>
                 </div>
-
-                <!-- Trash Bin -->
-                <div class="flex flex-col items-center justify-center">
-                    <div id="trash-zone"
-                        class="trash-can cursor-pointer p-8 rounded-full bg-theme-red/10 hover:bg-theme-red/20 border-4 border-theme-red/50 w-48 h-48 flex flex-col items-center justify-center shadow-inner">
-                        <span class="text-6xl text-theme-red">🗑️</span>
-                        <span class="font-bold text-theme-red mt-2">DROP WRONG WORDS HERE</span>
-                    </div>
-
-                    <div id="removed-section" class="mt-4 hidden w-full">
-                        <h4 class="text-theme-blue font-bold mb-2 text-sm">Trashed Items:</h4>
-                        <div id="removed-words" class="flex flex-wrap gap-2 justify-center"></div>
-                    </div>
-                </div>
             </div>
 
-            <button id="submit-btn"
-                class="mt-12 bg-theme-red hover:brightness-110 text-theme-white text-2xl font-black py-4 px-12 rounded-full shadow-xl transform hover:scale-105 transition">✨
-                CHECK BOX ✨</button>
+            <!-- Right Side: Trash Zone & Actions -->
+            <div class="space-y-8">
+                <div id="trash-zone"
+                    class="trash-zone glass rounded-[2.5rem] p-12 flex flex-col items-center justify-center text-center border-2 border-theme-blue/5 hover:border-theme-red/20 transition-all cursor-default">
+                    <div class="text-7xl mb-6">🗑️</div>
+                    <h3 class="text-xl font-black text-theme-blue mb-2">RECYCLE BIN</h3>
+                    <p class="text-sm font-bold text-theme-blue/40 px-4">Drop items here that don't fit the riddle</p>
+                </div>
+
+                <div id="removed-section" class="hidden glass rounded-[2.5rem] p-8 max-h-[300px] overflow-y-auto">
+                    <h4
+                        class="font-black uppercase tracking-widest text-[10px] text-theme-blue/40 mb-4 border-b border-theme-blue/5 pb-2">
+                        Removed Items</h4>
+                    <div id="removed-words" class="flex flex-wrap gap-2">
+                        <!-- Trashed items -->
+                    </div>
+                </div>
+
+                <button id="submit-btn"
+                    class="w-full bg-theme-blue text-white py-6 rounded-[2rem] font-black text-xl hover:shadow-2xl hover:shadow-theme-blue/20 transition-all active:scale-95 group">
+                    SOLVE PUZZLE <span class="inline-block group-hover:translate-x-1 transition-transform ml-2">→</span>
+                </button>
+            </div>
         </div>
-    </div>
+    </main>
 
     <!-- Success Modal -->
-    <div id="success-modal" class="fixed inset-0 bg-theme-white/90 flex items-center justify-center hidden z-50">
-        <div
-            class="bg-theme-white rounded-3xl p-12 text-center max-w-md mx-4 animate-bounce-in border-4 border-theme-blue shadow-2xl">
-            <div class="text-8xl mb-4">🎉</div>
-            <h2 class="text-4xl font-black text-theme-blue mb-2">PERFECT!</h2>
-            <p class="text-theme-blue/70 mb-8">You solved the daily puzzle.</p>
-            <a href="/" class="bg-theme-red text-theme-white px-8 py-3 rounded-full font-bold hover:brightness-110">Back
-                to
-                Hub</a>
+    <div id="success-modal"
+        class="fixed inset-0 bg-theme-blue/20 backdrop-blur-xl flex items-center justify-center hidden z-50 p-6">
+        <div class="glass bg-white/80 rounded-[3rem] p-16 text-center max-w-lg w-full animate-bounce-in shadow-2xl">
+            <div class="text-9xl mb-8">💎</div>
+            <h2 class="text-6xl font-black text-theme-blue mb-4 tracking-tighter">MISSION ACCOMPLISHED</h2>
+            <p class="text-xl font-bold text-theme-blue/60 mb-12">You've mastered today's classification logic!</p>
+            <div class="flex gap-4">
+                <a href="/"
+                    class="flex-1 bg-theme-red text-white py-5 rounded-2xl font-black text-lg hover:shadow-xl hover:shadow-theme-red/20 transition-all">
+                    RETURN TO HUB
+                </a>
+            </div>
         </div>
     </div>
 

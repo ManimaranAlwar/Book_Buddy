@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Cyber Alchemy Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
+</head>
+
+<body class="bg-[#F7F7FD] font-['Outfit'] text-[#0F2C67] p-8">
+    <div class="max-w-4xl mx-auto">
+        <div class="flex justify-between items-center mb-10">
+            <h1 class="text-4xl font-black">CYBER ALCHEMY : LOGS</h1>
+            <a href="/admin"
+                class="bg-white/50 border border-[#0F2C67]/10 px-6 py-2 rounded-xl font-bold hover:bg-[#0F2C67] hover:text-white transition">Back</a>
+        </div>
+
+        <div class="bg-white p-8 rounded-[2rem] shadow-xl border border-[#0F2C67]/5 mb-10">
+            <h2 class="text-xl font-black mb-6 uppercase tracking-widest text-[#0F2C67]">New Recipe</h2>
+            <form action="/admin/young-scientist/add" method="POST" class="space-y-4">
+                <div class="grid grid-cols-3 gap-4">
+                    <input type="text" name="item1" placeholder="Item 1 (Emoji)"
+                        class="p-4 rounded-xl border-2 border-[#0F2C67]/5 outline-none text-2xl text-center" required>
+                    <div class="flex items-center justify-center font-black">+</div>
+                    <input type="text" name="item2" placeholder="Item 2 (Emoji)"
+                        class="p-4 rounded-xl border-2 border-[#0F2C67]/5 outline-none text-2xl text-center" required>
+                </div>
+                <input type="text" name="result" placeholder="Result Emoji"
+                    class="w-full p-4 rounded-xl border-2 border-[#0F2C67]/5 outline-none text-3xl text-center font-black"
+                    required>
+                <textarea name="explanation" placeholder="Scientific Explanation"
+                    class="w-full p-4 rounded-xl border-2 border-[#0F2C67]/5 outline-none font-bold"
+                    required></textarea>
+                <button type="submit"
+                    class="w-full bg-[#0F2C67] text-white py-4 rounded-xl font-black text-lg hover:shadow-2xl transition">BIND
+                    ELEMENTS ✨</button>
+            </form>
+        </div>
+
+        <div class="grid gap-4">
+            {% for r in recipes %}
+            <div class="bg-white/80 p-6 rounded-2xl flex justify-between items-center border border-[#0F2C67]/5">
+                <div class="flex items-center gap-6">
+                    <div class="text-2xl">{{ r.item1 }} + {{ r.item2 }}</div>
+                    <div class="text-theme-red font-black">➔</div>
+                    <div class="text-3xl bg-[#0F2C67]/5 w-12 h-12 flex items-center justify-center rounded-lg">{{
+                        r.result }}</div>
+                    <p class="text-xs font-bold opacity-60 italic max-w-xs">{{ r.explanation }}</p>
+                </div>
+                <form action="/admin/young-scientist/delete/{{ loop.index0 }}" method="POST">
+                    <button type="submit" class="text-red-500 font-bold hover:underline">DELETE</button>
+                </form>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+
+</html>

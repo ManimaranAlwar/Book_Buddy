@@ -11,6 +11,10 @@ from blueprints.cross_maths import cross_maths_bp
 from blueprints.matchup import matchup_bp
 from blueprints.space_run import space_run_bp
 from blueprints.admin import admin_bp
+from blueprints.mr import mr_bp
+from blueprints.young_scientist import young_scientist_bp
+from blueprints.science_quiz import science_quiz_bp
+from blueprints.hidden import hidden_bp
 
 app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY', 'dev-secret-key-123')
@@ -22,6 +26,10 @@ app.register_blueprint(cross_maths_bp, url_prefix='/cross-maths')
 app.register_blueprint(matchup_bp, url_prefix='/matchup')
 app.register_blueprint(space_run_bp, url_prefix='/space-run')
 app.register_blueprint(admin_bp, url_prefix='/admin')
+app.register_blueprint(mr_bp, url_prefix='/mr')
+app.register_blueprint(young_scientist_bp, url_prefix='/young-scientist')
+app.register_blueprint(science_quiz_bp, url_prefix='/science-quiz')
+app.register_blueprint(hidden_bp, url_prefix='/hidden')
 
 @app.route('/')
 def dashboard():

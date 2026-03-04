@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚀 Super Science Adventure!</title>
+    <link rel="stylesheet" href="/static/science_quiz/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <div class="game-scene">
+        <div class="stars"></div>
+
+        <div class="quiz-card">
+            <div class="progress-container">
+                <div id="progress-bar"></div>
+                <div id="progress-text" class="text-sm"></div>
+            </div>
+
+            <div id="quiz-container">
+                <div class="mascot">🌟</div>
+                <h1 id="question">Ready to Play?</h1>
+                <div id="options" class="options-grid"></div>
+                <button id="next-btn" class="hidden">Next ➔</button>
+            </div>
+
+            <div id="result-container" class="hidden">
+                <div class="final-mascot">🏆</div>
+                <h1>Great Job, Scientist!</h1>
+                <p id="score-text"></p>
+                <button class="retry-btn" onclick="location.reload()">Play Again! 🔄</button>
+            </div>
+        </div>
+    </div>
+    <script src="/static/science_quiz/script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>MATH FOREST | BOOK-BUDDY</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        theme: {
+                            red: '#7D1424',
+                            blue: '#0F2C67',
+                            white: '#F7F7FD',
+                        }
+                    },
+                    fontFamily: {
+                        outfit: ['Outfit', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/global.css">
+    <script src="/static/js/games-sdk.js"></script>
+    <style>
+        * {
+            touch-action: none;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: #F7F7FD;
+            overflow: hidden;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Outfit', sans-serif;
+            color: #0F2C67;
+        }
+
+        @media (min-width: 800px) {
+            canvas {
+                width: 400px !important;
+                height: 600px !important;
+                border-radius: 2rem;
+                box-shadow: 0 25px 50px -12px rgba(15, 44, 103, 0.25);
+            }
+
+            #game-ui {
+                width: 400px !important;
+            }
+        }
+
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+            background: #ffffff;
+        }
+
+        .glass {
+            background: rgba(15, 44, 103, 0.05);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(15, 44, 103, 0.1);
+        }
+
+        #game-ui {
+            position: absolute;
+            top: 2rem;
+            width: 100%;
+            pointer-events: none;
+            z-index: 10;
+            padding: 0 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .exit-btn {
+            pointer-events: auto;
+            transition: all 0.3s ease;
+        }
+
+        .exit-btn:hover {
+            background: #0F2C67;
+            color: white;
+            transform: translateX(-4px);
+        }
+
+        @keyframes bounce-in {
+            0% {
+                transform: scale(0.3);
+                opacity: 0;
+            }
+
+            50% {
+                transform: scale(1.05);
+                opacity: 1;
+            }
+
+            70% {
+                transform: scale(0.9);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .animate-bounce-in {
+            animation: bounce-in 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="game-ui">
+        <a href="/" class="exit-btn glass px-4 py-2 rounded-xl font-bold text-xs flex items-center gap-2">
+            <span>←</span> EXIT
+        </a>
+        <div class="glass px-6 py-2 rounded-xl text-center">
+            <div class="text-[10px] uppercase font-black tracking-widest text-theme-blue/40">Mission Score</div>
+            <div id="scoreDisplay" class="text-2xl font-black tabular-nums">0</div>
+        </div>
+    </div>
+
+    <canvas id="gameCanvas"></canvas>
+
+    <div id="game-over"
+        class="hidden fixed inset-0 z-50 flex items-center justify-center p-6 bg-theme-blue/20 backdrop-blur-xl">
+        <div class="glass bg-white/80 rounded-[3rem] p-12 text-center max-w-sm w-full animate-bounce-in shadow-2xl">
+            <div class="text-8xl mb-6">🌲</div>
+            <h2 class="text-5xl font-black text-theme-blue mb-2 tracking-tighter">LOST IN FOREST</h2>
+            <p class="text-lg font-bold text-theme-blue/60 mb-8">Final Calculation Score: <span id="final-score"
+                    class="text-theme-red font-black">0</span></p>
+            <div class="space-y-4">
+                <button onclick="location.reload()"
+                    class="w-full bg-theme-red text-white py-4 rounded-2xl font-black text-lg hover:shadow-xl hover:shadow-theme-red/20 transition-all active:scale-95">
+                    NEW EXPEDITION
+                </button>
+                <a href="/"
+                    class="block w-full glass py-4 rounded-2xl font-black text-theme-blue hover:bg-theme-blue hover:text-white transition-all">
+                    BACK TO BASE
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById("gameCanvas");
+        const ctx = canvas.getContext("2d");
+
+        let w, h, scale;
+        function resize() {
+            if (window.innerWidth > 800) { w = 400; h = 600; }
+            else { w = window.innerWidth; h = window.innerHeight; }
+            canvas.width = w; canvas.height = h;
+            scale = w / 400;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        let score = 0, mathValue = 10, frame = 0, isGameOver = false;
+        let currentSpeed = 0.0022, speedIncrement = 0.0001, spawnRate = 320;
+        let player = { lane: 1, x: w / 2, stride: 0 };
+        let gates = [], stars = Array.from({ length: 40 }, () => ({ x: Math.random(), y: Math.random(), size: Math.random() * 2 }));
+        let trees = Array.from({ length: 40 }, (_, i) => ({
+            x: Math.random(),
+            y: Math.random(),
+            side: Math.random() > 0.5 ? 1 : -1,
+            depth: Math.random(),
+            type: Math.floor(Math.random() * 3) // 0: Cone, 1: Round, 2: Slim
+        }));
+
+        async function loadConfig() {
+            try {
+                const res = await fetch('/mr/api/config');
+                const config = await res.json();
+                spawnRate = config.spawnRate;
+                currentSpeed = config.currentSpeed;
+                speedIncrement = config.speedIncrement;
+            } catch (e) { console.error("Config load failed", e); }
+        }
+        loadConfig();
+
+        const imgLeft = new Image(); imgLeft.src = "/static/mr/left.png";
+        const imgRight = new Image(); imgRight.src = "/static/mr/right.png";
+
+        let audioCtx;
+        function initAudio() { if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)(); if (audioCtx.state === 'suspended') audioCtx.resume(); }
+        function playSfx(f, t, d, v) { if (!audioCtx) return; let o = audioCtx.createOscillator(), g = audioCtx.createGain(); o.type = t; o.frequency.setValueAtTime(f, audioCtx.currentTime); g.gain.setValueAtTime(v, audioCtx.currentTime); g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + d); o.connect(g); g.connect(audioCtx.destination); o.start(); o.stop(audioCtx.currentTime + d); }
+
+        function drawBackground() {
+            // Sky - Modern Soft Gradient
+            let skyGrd = ctx.createLinearGradient(0, 0, 0, h * 0.4);
+            skyGrd.addColorStop(0, "#eef2ff"); skyGrd.addColorStop(1, "#F7F7FD");
+            ctx.fillStyle = skyGrd; ctx.fillRect(0, 0, w, h * 0.4);
+
+            // Particles (Subtle)
+            ctx.fillStyle = "rgba(15, 44, 103, 0.05)";
+            stars.forEach(s => {
+                ctx.beginPath(); ctx.arc(s.x * w, s.y * h * 0.4, s.size, 0, Math.PI * 2); ctx.fill();
+                s.y += currentSpeed * 0.5; if (s.y > 1) s.y = 0;
+            });
+
+            // Ground
+            ctx.fillStyle = "#ffffff"; ctx.fillRect(0, h * 0.4, w, h * 0.6);
+
+            // Trees (Premium Minimalist Forest)
+            trees.forEach(t => {
+                t.y += currentSpeed * 1.5;
+                if (t.y > 1.1) {
+                    t.y = -0.1;
+                    t.side = Math.random() > 0.5 ? 1 : -1;
+                    t.depth = Math.random();
+                }
+
+                let p = Math.pow(t.y, 2);
+                let spread = (0.55 + p * 0.8) + (t.depth * (1 + p * 2));
+                let tx = t.side > 0 ? w * spread : w * (1 - spread);
+                let ty = h * 0.4 + (p * h * 0.6);
+                let ts = p * 120 * scale;
+
+                // Minimalist Tree Shapes
+                ctx.fillStyle = t.side > 0 ? "rgba(15, 44, 103, 0.03)" : "rgba(125, 20, 36, 0.02)";
+                ctx.beginPath();
+                if (t.type === 0) { // Cone
+                    ctx.moveTo(tx - ts / 3, ty);
+                    ctx.lineTo(tx + ts / 3, ty);
+                    ctx.lineTo(tx, ty - ts * 1.2);
+                } else if (t.type === 1) { // Round
+                    ctx.arc(tx, ty - ts * 0.6, ts * 0.5, 0, Math.PI * 2);
+                } else { // Slim
+                    ctx.roundRect(tx - ts / 6, ty - ts * 1.5, ts / 3, ts * 1.5, 4 * scale);
+                }
+                ctx.fill();
+            });
+
+            // Central Path
+            ctx.fillStyle = "rgba(15, 44, 103, 0.02)";
+            ctx.beginPath();
+            ctx.moveTo(w * 0.48, h * 0.4); ctx.lineTo(w * 0.52, h * 0.4);
+            ctx.lineTo(w * 1.5, h); ctx.lineTo(-w * 0.5, h);
+            ctx.fill();
+
+            // Lane Glow
+            let laneX = w / 2 + (player.lane - 1) * 200 * scale;
+            let glowGrd = ctx.createLinearGradient(0, h * 0.4, 0, h);
+            glowGrd.addColorStop(0, "rgba(15, 44, 103, 0)"); glowGrd.addColorStop(1, "rgba(15, 44, 103, 0.04)");
+            ctx.fillStyle = glowGrd;
+            ctx.beginPath();
+            ctx.moveTo(w * 0.5, h * 0.4); ctx.lineTo(laneX - 60 * scale, h); ctx.lineTo(laneX + 60 * scale, h);
+            ctx.fill();
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, w, h);
+            drawBackground();
+
+            let activeGate = gates.length > 0 ? gates.reduce((p, c) => (p.progress > c.progress) ? p : c) : null;
+
+            gates.forEach((g, index) => {
+                g.progress += currentSpeed;
+                let vProg = Math.pow(g.progress, 2.2);
+                let curY = h * 0.4 + (vProg * h * 0.6);
+                let s = 0.01 + vProg * 0.99;
+
+                let wobble = Math.sin(frame * 0.1 + g.progress * 10) * 3 * s;
+
+                if (g === activeGate && g.progress < 0.9) {
+                    ctx.fillStyle = "#0F2C67";
+                    ctx.font = `black ${30 * scale}px Outfit`; ctx.textAlign = "center";
+                    ctx.globalAlpha = Math.min(1, (1 - g.progress) * 2);
+                    ctx.fillText(g.text.toUpperCase(), w / 2, h * 0.15 + wobble);
+                    ctx.globalAlpha = 1;
+                }
+
+                g.opts.forEach(o => {
+                    let xOff = (o.lane - 1) * 200 * scale * s;
+                    let rw = 120 * scale * s;
+                    let rh = 80 * scale * s;
+                    let rx = w / 2 + xOff - rw / 2;
+                    let ry = curY - rh + wobble;
+
+                    // Modern Sign UI - Glassmorphism Style
+                    if (s > 0.05) {
+                        ctx.save();
+                        ctx.translate(rx + rw / 2, ry + rh / 2);
+
+                        // Drop Shadow
+                        ctx.shadowColor = 'rgba(15, 44, 103, 0.1)';
+                        ctx.shadowBlur = 10 * s;
+
+                        // Sign Body
+                        ctx.fillStyle = "rgba(255, 255, 255, 0.9)";
+                        ctx.beginPath();
+                        ctx.roundRect(-rw / 2, -rh / 2, rw, rh, 12 * s * scale);
+                        ctx.fill();
+
+                        ctx.shadowBlur = 0;
+                        ctx.strokeStyle = "rgba(15, 44, 103, 0.1)";
+                        ctx.lineWidth = 1 * scale;
+                        ctx.stroke();
+
+                        // Sign Value
+                        ctx.fillStyle = "#0F2C67";
+                        let fontSize = 40 * s * scale;
+                        ctx.font = `black ${fontSize}px Outfit`;
+                        ctx.textAlign = "center";
+                        ctx.fillText(o.val, 0, rh / 4);
+
+                        ctx.restore();
+                    }
+
+                    // Collision (Optimized)
+                    if (g.progress > 0.88 && g.progress < 0.94 && o.lane === player.lane) {
+                        if (o.good) {
+                            score++; currentSpeed += speedIncrement;
+                            gates.splice(index, 1);
+                            // Success Effects
+                            playSfx(800, 'triangle', 0.2, 0.1);
+                            playSfx(1200, 'sine', 0.1, 0.05); // Cheering/Success ping
+                            ctx.fillStyle = "rgba(15, 44, 103, 0.2)";
+                        } else {
+                            endGame();
+                        }
+                    }
+                });
+                if (g.progress > 1) gates.splice(index, 1);
+            });
+
+            player.stride += (currentSpeed * 100);
+            let targetX = w / 2 + (player.lane - 1) * 200 * scale;
+            player.x += (targetX - player.x) * 0.18;
+            let bob = Math.sin(player.stride) * 8;
+            let img = Math.sin(player.stride) > 0 ? imgLeft : imgRight;
+
+            let charSize = 90 * scale;
+            ctx.drawImage(img, player.x - (charSize / 2), (h * 0.9 + bob) - charSize, charSize, charSize);
+
+            document.getElementById("scoreDisplay").innerText = score;
+
+            if (!isGameOver) {
+                frame++;
+                if (frame % Math.floor(spawnRate - score * 2) === 0) spawn();
+                requestAnimationFrame(draw);
+            }
+        }
+
+        function endGame() {
+            isGameOver = true;
+            playSfx(100, 'sawtooth', 0.5, 0.2);
+            document.getElementById("final-score").innerText = score;
+            document.getElementById("game-over").classList.remove("hidden");
+            GamesSDK.reportScore('mr');
+        }
+
+        function spawn() {
+            let isAdd = Math.random() > 0.5, val = Math.floor(Math.random() * 5) + 1;
+            let ans = isAdd ? mathValue + val : mathValue - val;
+            let goodL = Math.floor(Math.random() * 3);
+            let usedValues = new Set(); usedValues.add(ans);
+
+            let opts = [0, 1, 2].map(i => {
+                if (i === goodL) return { lane: i, val: ans, good: true };
+                let wrongVal;
+                do { wrongVal = ans + (Math.floor(Math.random() * 11) - 5); } while (usedValues.has(wrongVal));
+                usedValues.add(wrongVal);
+                return { lane: i, val: wrongVal, good: false };
+            });
+
+            gates.push({ progress: 0, text: `EXPEDITION: ${mathValue} ${isAdd ? '+' : '-'} ${val}`, opts: opts });
+            mathValue = ans;
+        }
+
+        window.addEventListener("keydown", (e) => {
+            initAudio();
+            if (isGameOver) return;
+            if ((e.key === "ArrowLeft" || e.key === "a") && player.lane > 0) player.lane--;
+            if ((e.key === "ArrowRight" || e.key === "d") && player.lane < 2) player.lane++;
+        });
+
+        let touchX = 0;
+        canvas.addEventListener("touchstart", (e) => {
+            initAudio();
+            touchX = e.touches[0].clientX;
+        }, { passive: false });
+
+        canvas.addEventListener("touchend", (e) => {
+            if (isGameOver) return;
+            let diffX = e.changedTouches[0].clientX - touchX;
+            if (Math.abs(diffX) > 30) {
+                if (diffX > 0 && player.lane < 2) player.lane++;
+                else if (diffX < 0 && player.lane > 0) player.lane--;
+            }
+        }, { passive: false });
+
+        // Initialize SDK
+        GamesSDK.init();
+        draw();
+    </script>
+</body>
+
+</html>

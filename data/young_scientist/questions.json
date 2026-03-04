@@ -1,0 +1,38 @@
+[
+    {
+        "item1": "🔥",
+        "item2": "💧",
+        "result": "☁️",
+        "explanation": "Heat turns water into steam! This is called evaporation."
+    },
+    {
+        "item1": "🌱",
+        "item2": "💧",
+        "result": "🌻",
+        "explanation": "Plants need water to grow. This is the magic of biology!"
+    },
+    {
+        "item1": "☁️",
+        "item2": "☁️",
+        "result": "⚡",
+        "explanation": "When clouds collide in a storm, they create electricity called lightning!"
+    },
+    {
+        "item1": "🔥",
+        "item2": "🔥",
+        "result": "🌋",
+        "explanation": "Fire mixes to produce larva"
+    },
+    {
+        "item1": "💧",
+        "item2": "❄️",
+        "result": "🧊",
+        "explanation": "Water molecules reacts with snow to produce ice\r\n"
+    },
+    {
+        "item1": "💧",
+        "item2": "💨",
+        "result": "❄️",
+        "explanation": "water freeze into snow"
+    }
+]

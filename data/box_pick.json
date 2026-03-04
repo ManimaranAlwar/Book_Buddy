@@ -173,5 +173,24 @@
             "beige",
             "cream"
         ]
+    },
+    {
+        "id": 8,
+        "riddle": "I am a mammal",
+        "emoji": "🐄",
+        "correctWords": [
+            "cow",
+            "bule whale",
+            "spawn",
+            "human",
+            "dog",
+            "cat",
+            "elephant"
+        ],
+        "wrongWords": [
+            "eagle",
+            "parrot",
+            "hen"
+        ]
     }
 ]

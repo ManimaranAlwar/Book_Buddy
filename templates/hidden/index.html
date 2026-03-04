@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HIDDEN EXPEDITION | BOOK-BUDDY</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        theme: {
+                            blue: '#0F2C67',
+                            red: '#7D1424',
+                            white: '#F7F7FD',
+                        }
+                    },
+                    fontFamily: {
+                        outfit: ['Outfit', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/global.css">
+    <script src="/static/js/games-sdk.js"></script>
+    <style>
+        body {
+            background: #F7F7FD;
+            font-family: 'Outfit', sans-serif;
+            color: #0F2C67;
+            overflow-x: hidden;
+        }
+
+        .glass {
+            background: rgba(15, 44, 103, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(15, 44, 103, 0.1);
+        }
+
+        #game-container {
+            cursor: crosshair;
+            transition: all 0.3s ease;
+        }
+
+        .hotspot {
+            position: absolute;
+            border-radius: 50%;
+            border: 2px dashed rgba(15, 44, 103, 0.3);
+            transition: all 0.3s ease;
+            pointer-events: auto;
+        }
+
+        .hotspot:hover {
+            background: rgba(15, 44, 103, 0.1);
+            border-color: #0F2C67;
+        }
+
+        .hotspot.found {
+            border: 3px solid #10b981;
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        @keyframes pulse-red {
+
+            0%,
+            100% {
+                background: transparent;
+            }
+
+            50% {
+                background: rgba(125, 20, 36, 0.1);
+            }
+        }
+
+        .wrong-click {
+            animation: pulse-red 0.3s ease-in-out;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen relative py-12 px-6">
+    <div class="fixed top-[-20%] left-[-10%] w-[50%] h-[50%] bg-theme-blue/5 rounded-full blur-[120px] -z-10"></div>
+
+    <nav class="fixed top-0 left-0 right-0 p-8 flex justify-between items-center z-50">
+        <a href="/"
+            class="glass px-6 py-3 rounded-2xl flex items-center gap-2 font-black hover:bg-theme-blue hover:text-white transition-all group">
+            <span class="group-hover:-translate-x-1 transition-transform">←</span> EXIT MISSION
+        </a>
+        <div class="flex gap-4">
+            <div class="glass px-8 py-3 rounded-2xl flex items-center gap-4">
+                <div class="text-right">
+                    <div class="text-[10px] font-black uppercase tracking-widest text-theme-blue/40">ANOMALIES FOUND
+                    </div>
+                    <div id="score" class="font-black text-theme-blue text-center">0</div>
+                </div>
+            </div>
+            <div class="glass px-8 py-3 rounded-2xl flex items-center gap-4">
+                <div class="text-right">
+                    <div class="text-[10px] font-black uppercase tracking-widest text-theme-blue/40">SYSTEM HEALTH</div>
+                    <div id="lives" class="flex gap-1 text-sm tracking-widest">❤️❤️❤️</div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-6xl mx-auto pt-24 grid lg:grid-cols-[1fr_300px] gap-8">
+        <!-- Explorer View -->
+        <div class="flex flex-col gap-6">
+            <div
+                class="glass rounded-[3rem] p-4 border-2 border-theme-blue/5 shadow-2xl relative overflow-hidden group">
+                <div id="game-container"
+                    class="relative rounded-[2rem] overflow-hidden bg-theme-blue/5 aspect-video flex items-center justify-center">
+                    <img id="game-image" src="" alt="Mission Sector" class="w-full h-full object-cover">
+                    <div id="hotspot-layer" class="absolute inset-0"></div>
+                </div>
+            </div>
+
+            <div class="glass rounded-[2rem] p-8 flex items-center justify-between">
+                <div>
+                    <div class="text-[10px] font-black uppercase tracking-[0.2em] text-theme-blue/40 mb-1">Mission
+                        Riddle</div>
+                    <div id="question-display" class="text-xl font-black text-theme-blue tracking-tight leading-snug">
+                        Calibrating sensors...</div>
+                </div>
+                <div class="flex gap-3">
+                    <button id="restart-btn"
+                        class="glass px-6 py-3 rounded-xl font-bold text-xs hover:bg-theme-red hover:text-white transition-all">RESTART</button>
+                    <button id="next-level-btn"
+                        class="hidden bg-theme-blue text-white px-8 py-3 rounded-xl font-black text-xs hover:shadow-lg transition-all active:scale-95">NEXT
+                        SECTOR</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hint Controls -->
+        <div class="flex flex-col gap-6">
+            <div class="glass rounded-[2.5rem] p-8 flex-1">
+                <div class="flex items-center gap-2 mb-8">
+                    <div class="text-2xl">💡</div>
+                    <h3 class="text-xl font-black text-theme-blue tracking-tight text-center">ANALYTICS</h3>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3 mb-8">
+                    <button id="hint1-btn"
+                        class="glass p-4 rounded-2xl font-black text-lg hover:bg-theme-blue hover:text-white transition-all">1</button>
+                    <button id="hint2-btn"
+                        class="glass p-4 rounded-2xl font-black text-lg hover:bg-theme-blue hover:text-white transition-all">2</button>
+                </div>
+
+                <div id="hint-display"
+                    class="glass bg-white/40 p-6 rounded-2xl text-sm font-bold text-theme-blue/60 leading-relaxed italic border-none shadow-inner min-h-[120px]">
+                    Select a sensor boost above if you are stuck.
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <audio id="success-sound" src="/static/hidden/game-audio.mp3" preload="auto"></audio>
+
+    <script src="/static/hidden/script.js"></script>
+    <script>
+        GamesSDK.init();
+    </script>
+</body>
+
+</html>
